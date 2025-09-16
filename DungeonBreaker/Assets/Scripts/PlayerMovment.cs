@@ -23,12 +23,12 @@ public class PlayerMovment : MonoBehaviour
         {
             Debug.LogError("RigidBody is null!");
         }
-        animator = GetComponentInChildren<Animator>();
+        animator = GetComponent<Animator>();
         if (animator == null)
         {
             Debug.LogError("Animator is null!");
         }
-        sprite = GetComponentInChildren<SpriteRenderer>();
+        sprite = GetComponent<SpriteRenderer>();
         if (sprite == null)
         {
             Debug.LogError("sprite is null!");
@@ -80,12 +80,16 @@ public class PlayerMovment : MonoBehaviour
     }
     private void HandleMovmentAnimations()
     {
-        animator.SetFloat("Speed", rb.linearVelocity.x);
+        animator.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x));
+
         if (directionX != 0)
         {
-            sprite.flipX = directionX < 0 ? true : false;
+            transform.localScale = new Vector3(
+                directionX > 0 ? 1 : -1,   
+                transform.localScale.y,
+                transform.localScale.z
+            );
         }
-
     }
     private void FixedUpdate()
     {
@@ -96,10 +100,14 @@ public class PlayerMovment : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Ground"))
         {
+            Debug.Log("toched ground");
             isGrounded = true;
 
         }
     }
+
+    
+
 
     private void Jump()
     {
