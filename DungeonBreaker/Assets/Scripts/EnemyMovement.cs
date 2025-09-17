@@ -2,37 +2,53 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    [SerializeField] float speed = 2f;         
-    [SerializeField] float moveDistance = 3f;  
+    [SerializeField] float speed = 2f;
+    [SerializeField] Animator animator;
+    public bool canMove = true;
 
-    private Vector2 startPos;
     private int direction = 1; 
-
-    private void Start()
-    {
-        startPos = transform.position;
-    }
 
     private void Update()
     {
-        transform.Translate(Vector2.right * direction * speed * Time.deltaTime);
+        if (!canMove)
+        {
+            if (animator != null)
+                animator.SetFloat("Speed", 0);
+            return;
+        }
 
-        if (transform.position.x > startPos.x + moveDistance)
-        {
-            direction = -1; 
-            Flip();
-        }
-        else if (transform.position.x < startPos.x - moveDistance)
-        {
-            direction = 1; 
-            Flip();
-        }
+        
+        transform.position += new Vector3(direction * speed * Time.deltaTime, 0, 0);
+
+        
+        if (animator != null)
+            animator.SetFloat("Speed", Mathf.Abs(speed));
     }
 
     private void Flip()
     {
         Vector3 localScale = transform.localScale;
-        localScale.x *= -1;
+        localScale.x = Mathf.Abs(localScale.x) * (direction == 1 ? 1 : -1);
         transform.localScale = localScale;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Walls"))
+        {
+            direction *= -1; 
+            Flip();
+        }
+    }
+
+    public void StopMoving()
+    {
+        canMove = false;
+    }
+
+    public void ResumeMoving()
+    {
+        canMove = true;
     }
 }

@@ -5,7 +5,8 @@ public class PlayerAttack : MonoBehaviour
 {
     [SerializeField] int damage = 1;
     [SerializeField] Collider2D attackCollider; 
-    [SerializeField] float attackDuration = 0.3f; 
+    [SerializeField] float attackDuration = 0.3f;
+    [SerializeField] Animator animator;
 
     InputActions inputActions;
     bool isAttacking = false;
@@ -31,6 +32,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (!isAttacking)
         {
+            animator.SetTrigger("IsAttacking");
             StartCoroutine(DoAttack());
         }
     }

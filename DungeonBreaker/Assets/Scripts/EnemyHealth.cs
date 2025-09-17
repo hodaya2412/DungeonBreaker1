@@ -23,6 +23,10 @@ public class EnemyHealth : MonoBehaviour
         {
             currentHealth -= damage;
 
+            EnemyMovement movement = GetComponent<EnemyMovement>();
+            if (movement != null)
+                movement.StopMoving();
+
             if (currentHealth <= 0)
             {
                 Die();

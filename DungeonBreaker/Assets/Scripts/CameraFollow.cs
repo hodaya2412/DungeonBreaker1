@@ -2,18 +2,18 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    [SerializeField] Transform player;       // השחקנית
+    [SerializeField] Transform player;       
     [SerializeField] float smoothSpeed = 0.125f;
-    [SerializeField] float fixedY = 2f;      // גובה קבוע
-    [SerializeField] float depth = -10f;     // עומק מצלמה
-    [SerializeField] Transform leftBound;    // גבול שמאל
-    [SerializeField] Transform rightBound;   // גבול ימין
+    [SerializeField] float fixedY = 2f;     
+    [SerializeField] float depth = -10f;     
+    [SerializeField] Transform leftBound;    
+    [SerializeField] Transform rightBound;   
 
     private float halfCamWidth;
 
     void Start()
     {
-        // מחשבים חצי רוחב של המצלמה לפי ה־Orthographic Size והיחס
+        
         Camera cam = Camera.main;
         halfCamWidth = cam.orthographicSize * cam.aspect;
     }
@@ -22,14 +22,14 @@ public class CameraFollow : MonoBehaviour
     {
         
 
-        // מיקום יעד לפי השחקנית
+        
         float targetX = player.position.x;
 
-        // מגבילים את X שלא יעבור את הגבולות
+        
         targetX = Mathf.Clamp(
             targetX,
-            leftBound.position.x + halfCamWidth,   // שמאל
-            rightBound.position.x - halfCamWidth  // ימין
+            leftBound.position.x + halfCamWidth,   
+            rightBound.position.x - halfCamWidth 
         );
 
         Vector3 desiredPosition = new Vector3(
@@ -38,7 +38,7 @@ public class CameraFollow : MonoBehaviour
             depth
         );
 
-        // תנועה חלקה
+        
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
         transform.position = smoothedPosition;
     }
