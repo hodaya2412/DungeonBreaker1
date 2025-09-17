@@ -33,5 +33,7 @@ public class PlayerHealth : MonoBehaviour
     private void Die()
     {
         Debug.Log("Player died!");
+        if (animator != null)
+            animator.SetTrigger("IsDead");
     }
 }

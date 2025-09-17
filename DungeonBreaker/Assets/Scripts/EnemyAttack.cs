@@ -3,28 +3,40 @@ using UnityEngine;
 public class EnemyAttack : MonoBehaviour
 {
     [SerializeField] private Animator animator;
-    [SerializeField] private EnemyMovement enemyMovement; // כדי לעצור את התנועה בזמן התקיפה
+    [SerializeField] private EnemyMovement enemyMovement; 
     [SerializeField] private int damage = 1;
+
+    private bool isAttacking = false;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && !isAttacking)
         {
-            // מפעיל את האנימציה של התקיפה
+            isAttacking = true;
+
             animator.SetTrigger("IsAttacking");
 
-            // עוצר את התנועה בזמן התקיפה
             if (enemyMovement != null)
                 enemyMovement.StopMoving();
 
-            // תגרום לשחקנית לקבל נזק
             collision.gameObject.GetComponent<PlayerHealth>()?.TakeDamage(damage);
         }
     }
 
-    // אפשר להוסיף פונקציה שתופעל באירוע באנימציה לסיום התקיפה
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            isAttacking = false;
+
+            if (enemyMovement != null)
+                enemyMovement.ResumeMoving();
+        }
+    }
+
     public void EndAttack()
     {
+        isAttacking = false;
         if (enemyMovement != null)
             enemyMovement.ResumeMoving();
     }

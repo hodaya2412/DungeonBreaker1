@@ -2,8 +2,9 @@ using System;
 using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
-{ 
+{
     [SerializeField] int maxHealth = 3;
+    [SerializeField] Animator animator; // הוספת Animator
     int currentHealth;
 
     private void OnEnable()
@@ -23,6 +24,7 @@ public class EnemyHealth : MonoBehaviour
         {
             currentHealth -= damage;
 
+            // עוצר תנועה בזמן התקיפה/פגיעה
             EnemyMovement movement = GetComponent<EnemyMovement>();
             if (movement != null)
                 movement.StopMoving();
@@ -36,8 +38,14 @@ public class EnemyHealth : MonoBehaviour
 
     private void Die()
     {
-        Events.OnEnemyDeath?.Invoke(gameObject);
-        Destroy(gameObject);
-    }
+        // מפעיל את האנימציה של המוות
+        if (animator != null)
+            animator.SetTrigger("IsDead");
 
+        // קריאה לאירוע מוות אם צריך
+        Events.OnEnemyDeath?.Invoke(gameObject);
+
+        // השמדת האויב אחרי השהייה כדי לאפשר לאנימציה לרוץ
+        Destroy(gameObject, 1f); // 1 שניה או לפי אורך האנימציה
+    }
 }
