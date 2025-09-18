@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.U2D;
@@ -28,12 +29,20 @@ public class PlayerMovment : MonoBehaviour
         {
             Debug.LogError("Animator is null!");
         }
+        animator.enabled = false;
+        animator.Update(0);
         sprite = GetComponent<SpriteRenderer>();
         if (sprite == null)
         {
             Debug.LogError("sprite is null!");
         }
+        StartCoroutine(EnableAnimator());
 
+    }
+    IEnumerator EnableAnimator()
+    {
+        yield return new WaitForSeconds(1f);
+        animator.enabled = true;
     }
     private void Awake()
     {

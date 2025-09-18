@@ -587,10 +587,34 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4008557065969154479, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4008557065969154479, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
+      propertyPath: m_Color.b
+      value: 0.96446425
+      objectReference: {fileID: 0}
+    - target: {fileID: 4008557065969154479, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
+      propertyPath: m_Color.g
+      value: 0.96446425
+      objectReference: {fileID: 0}
+    - target: {fileID: 4008557065969154479, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
+      propertyPath: m_Color.r
+      value: 0.98490566
+      objectReference: {fileID: 0}
+    - target: {fileID: 4822398208353430945, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4822398208353430945, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 665dff9faeefb0c40ae002859c23843f, type: 2}
+    - target: {fileID: 4822398208353430945, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5420358889036607092, guid: ee14459f600f6ec4783a1f1bae436bcc, type: 3}
       propertyPath: m_TagString
       value: Ground
