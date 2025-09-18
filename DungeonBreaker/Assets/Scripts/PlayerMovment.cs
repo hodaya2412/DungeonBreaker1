@@ -39,7 +39,7 @@ public class PlayerMovment : MonoBehaviour
         StartCoroutine(EnableAnimator());
 
     }
-    IEnumerator EnableAnimator()
+    IEnumerator   EnableAnimator()
     {
         yield return new WaitForSeconds(1f);
         animator.enabled = true;
