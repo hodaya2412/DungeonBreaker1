@@ -8,4 +8,5 @@ public class Events : MonoBehaviour
     public static Action<int, int> OnHealthChanged;
 
     public static Action<GameObject, int> OnEnemyHitPlayer;
+    
 }
