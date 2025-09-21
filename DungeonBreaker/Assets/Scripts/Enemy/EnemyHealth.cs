@@ -16,7 +16,6 @@ public class EnemyHealth : MonoBehaviour
         Events.OnPlayerAttack += TakeHit;
         movement = GetComponent<EnemyMovement>();
     }
-
     private void OnDisable()
     {
         Events.OnPlayerAttack -= TakeHit;
