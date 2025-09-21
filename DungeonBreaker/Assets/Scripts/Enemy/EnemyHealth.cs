@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
+
     [SerializeField] int maxHealth = 3;
     [SerializeField] Animator animator;
     [SerializeField] float hitStunTime = 0.3f; 
