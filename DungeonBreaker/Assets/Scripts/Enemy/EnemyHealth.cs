@@ -26,7 +26,12 @@ public class EnemyHealth : MonoBehaviour
     {
         if (enemy == gameObject)
         {
+            Debug.Log("TakeHit called!");
             currentHealth -= damage;
+
+            if (animator != null)
+                animator.SetTrigger("Hurt");
+
             if (movement != null)
                 StartCoroutine(HitStun());
 
