@@ -1787,6 +1787,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2543767640339925673, guid: 5aad63579a51d864f8f8117e329adfb3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.40096664
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543767640339925673, guid: 5aad63579a51d864f8f8117e329adfb3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.5210376
+      objectReference: {fileID: 0}
     - target: {fileID: 3948437122596911779, guid: 5aad63579a51d864f8f8117e329adfb3, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.5936
@@ -1798,6 +1806,10 @@ PrefabInstance:
     - target: {fileID: 4943306694892244519, guid: 5aad63579a51d864f8f8117e329adfb3, type: 3}
       propertyPath: m_Name
       value: 001 Student 1 Character
+      objectReference: {fileID: 0}
+    - target: {fileID: 4943306694892244519, guid: 5aad63579a51d864f8f8117e329adfb3, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 5056831358102626027, guid: 5aad63579a51d864f8f8117e329adfb3, type: 3}
       propertyPath: m_Color.a
