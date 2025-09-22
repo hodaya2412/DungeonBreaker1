@@ -3,7 +3,7 @@ using UnityEngine;
 public class HealthPotion : MonoBehaviour
 {
     public int healAmount = 1;
-    public GameObject healEffectPrefab; // Prefab של האפקט
+    public GameObject healEffectPrefab; 
 
     private void OnTriggerEnter2D(Collider2D other)
     {

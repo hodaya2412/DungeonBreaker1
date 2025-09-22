@@ -6,9 +6,9 @@ public class EnemyHealth : MonoBehaviour
 
     [SerializeField] int maxHealth = 3;
     [SerializeField] Animator animator;
-    [SerializeField] float hitStunTime = 0.3f; 
+    [SerializeField] float hitStunTime = 0.3f;
 
-    int currentHealth;
+    public int currentHealth;
     EnemyMovement movement;
 
     private void OnEnable()
@@ -56,17 +56,13 @@ public class EnemyHealth : MonoBehaviour
 
         Events.OnEnemyDeath?.Invoke(gameObject);
 
-      
+
         StartCoroutine(DelayedDeath());
     }
 
     private IEnumerator DelayedDeath()
     {
-        yield return new WaitForSeconds(1f); 
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.EnemyKilled();
-        }
+        yield return new WaitForSeconds(1f);
         Destroy(gameObject);
     }
 

@@ -4,14 +4,14 @@ public class EnemyAttack : MonoBehaviour
 {
     [SerializeField] private Animator animator;
     [SerializeField] private EnemyMovement enemyMovement;
-    [SerializeField] private int damage = 1;
-    [SerializeField] private float detectionRange = 5f;
-    [SerializeField] private float attackCooldown = 2f; // זמן בין התקפות
+    public int damage = 1;
+    public float detectionRange = 5f;
+    [SerializeField] private float attackCooldown = 2f; 
 
     private Transform player;
     private bool hasAttacked = false;
     private float nextAttackTime = 0f;
-    private int lastDirection = 1; // זוכר את הכיוון האחרון
+    private int lastDirection = 1; 
 
     private void Start()
     {
@@ -45,13 +45,13 @@ public class EnemyAttack : MonoBehaviour
             nextAttackTime = Time.time + attackCooldown;
 
             enemyMovement?.StopMoving();
-            Invoke(nameof(TurnAroundAfterAttack), 0.5f); // זמן לסיום האנימציה
+            Invoke(nameof(TurnAroundAfterAttack), 0.5f); 
         }
     }
 
     private void TurnAroundAfterAttack()
     {
-        // הופך כיוון
+       
         lastDirection *= -1;
         enemyMovement?.SetDirection(lastDirection);
         enemyMovement?.ResumeMoving();

@@ -19,15 +19,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        Events.OnEnemyDeath += OnEnemyDeath;
+    }
+
+    private void OnDisable()
+    {
+        Events.OnEnemyDeath -= OnEnemyDeath;
+    }
+
     private void Start()
     {
-
+        // סופרים את כל האויבים בתחילת הסצנה
         enemiesRemaining = GameObject.FindGameObjectsWithTag("Enemy").Length;
         Debug.Log("Enemies in scene: " + enemiesRemaining);
     }
 
-    
-    public void EnemyKilled()
+    private void OnEnemyDeath(GameObject enemy)
     {
         enemiesRemaining--;
         Debug.Log("Enemy killed! Remaining: " + enemiesRemaining);
@@ -41,6 +50,6 @@ public class GameManager : MonoBehaviour
     private void AllEnemiesDefeated()
     {
         Debug.Log("All enemies defeated! Grant power-up here.");
-        // כאן אפשר להפעיל את השדרוג/כוח חדש לשחקנית
+        // כאן אפשר להפעיל מעבר לשלב הבא, לתת פרס או הפעלה אחרת
     }
 }

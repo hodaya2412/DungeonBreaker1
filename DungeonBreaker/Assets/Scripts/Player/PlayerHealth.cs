@@ -1,13 +1,13 @@
-using System;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] private int maxHealth = 5;
     [SerializeField] private Animator animator;
-
+    [SerializeField] private float deathAnimationDuration = 2f; 
     private int currentHealth;
-    private bool isDead = false;
+    public bool isDead = false;
 
     private void Awake()
     {
@@ -54,25 +54,32 @@ public class PlayerHealth : MonoBehaviour
     private void Die()
     {
         if (isDead) return;
+
         isDead = true;
 
-     
+        
         animator?.SetTrigger("IsDead");
 
-
-      
-        StartCoroutine(StopGameAfterDeath(7));
+       
+        StartCoroutine(StopGameAfterDeath(deathAnimationDuration));
     }
 
-
-    private System.Collections.IEnumerator StopGameAfterDeath(float duration)
+    private IEnumerator StopGameAfterDeath(float duration)
     {
-        yield return new WaitForSecondsRealtime(duration);
-        Time.timeScale = 0f; 
+       
+        yield return new WaitForSeconds(duration);
+
+        
+        Time.timeScale = 0f;
+        Debug.Log("Game Over");
     }
+
     public void Heal(int amount)
     {
+        if (isDead) return;
+
         currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
         Debug.Log("Player healed! Current HP: " + currentHealth);
+        Events.OnHealthChanged?.Invoke(currentHealth, maxHealth);
     }
 }
