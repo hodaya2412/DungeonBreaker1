@@ -1,10 +1,11 @@
+// GameManager.cs
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-
-    private int enemiesRemaining;
+    [SerializeField] private PlayerAttack playerAttack;
 
     private void Awake()
     {
@@ -29,27 +30,25 @@ public class GameManager : MonoBehaviour
         Events.OnEnemyDeath -= OnEnemyDeath;
     }
 
-    private void Start()
-    {
-        // סופרים את כל האויבים בתחילת הסצנה
-        enemiesRemaining = GameObject.FindGameObjectsWithTag("Enemy").Length;
-        Debug.Log("Enemies in scene: " + enemiesRemaining);
-    }
-
     private void OnEnemyDeath(GameObject enemy)
     {
-        enemiesRemaining--;
-        Debug.Log("Enemy killed! Remaining: " + enemiesRemaining);
-
-        if (enemiesRemaining <= 0)
-        {
-            AllEnemiesDefeated();
-        }
+        // קורוטינה שתבדוק מתי אין יותר אויבים עם תג "Enemy"
+        StartCoroutine(CheckAllEnemiesDefeated());
     }
 
-    private void AllEnemiesDefeated()
+    private IEnumerator CheckAllEnemiesDefeated()
     {
-        Debug.Log("All enemies defeated! Grant power-up here.");
-        // כאן אפשר להפעיל מעבר לשלב הבא, לתת פרס או הפעלה אחרת
+        // חכה מעט כדי שהאויבים יסיימו את כל תהליכי המוות שלהם
+        yield return new WaitForSeconds(0.1f);
+
+        // בודק שוב אם באמת אין אויבים עם תג "Enemy"
+        while (GameObject.FindGameObjectsWithTag("Enemy").Length > 0)
+        {
+            yield return null;
+        }
+
+        // עכשיו בטוח שכל האויבים מתו, הפעל את ה-Power-Up
+        if (playerAttack != null)
+            playerAttack.ActivatePowerUp();
     }
 }

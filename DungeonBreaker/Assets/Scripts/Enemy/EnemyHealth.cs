@@ -7,6 +7,8 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] int maxHealth = 3;
     [SerializeField] Animator animator;
     [SerializeField] float hitStunTime = 0.3f;
+    [SerializeField] private EnemyHealthUI healthUI; 
+
 
     public int currentHealth;
     EnemyMovement movement;
@@ -28,6 +30,10 @@ public class EnemyHealth : MonoBehaviour
         {
             Debug.Log("TakeHit called!");
             currentHealth -= damage;
+
+            if (healthUI != null)
+                healthUI.TakeDamage(damage);
+
 
             if (animator != null)
                 animator.SetTrigger("Hurt");

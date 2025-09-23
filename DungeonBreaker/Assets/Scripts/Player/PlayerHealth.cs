@@ -5,7 +5,8 @@ public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] private int maxHealth = 5;
     [SerializeField] private Animator animator;
-    [SerializeField] private float deathAnimationDuration = 2f; 
+    [SerializeField] private float deathAnimationDuration = 2f;
+    [SerializeField] private PlayerHealthUI healthUI;
     private int currentHealth;
     public bool isDead = false;
 
@@ -40,6 +41,9 @@ public class PlayerHealth : MonoBehaviour
         currentHealth -= damage;
         Events.OnHealthChanged?.Invoke(currentHealth, maxHealth);
         Debug.Log($"Player took {damage} damage. Current health: {currentHealth}");
+
+        if (healthUI != null)
+            healthUI.TakeDamage(damage);
 
         if (currentHealth <= 0)
         {
@@ -81,5 +85,7 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
         Debug.Log("Player healed! Current HP: " + currentHealth);
         Events.OnHealthChanged?.Invoke(currentHealth, maxHealth);
+        if (healthUI != null)
+            healthUI.AddHealth(amount);
     }
 }
