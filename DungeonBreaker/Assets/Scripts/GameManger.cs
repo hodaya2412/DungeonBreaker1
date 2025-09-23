@@ -1,4 +1,4 @@
-// GameManager.cs
+
 using System.Collections;
 using UnityEngine;
 
@@ -32,22 +32,21 @@ public class GameManager : MonoBehaviour
 
     private void OnEnemyDeath(GameObject enemy)
     {
-        // קורוטינה שתבדוק מתי אין יותר אויבים עם תג "Enemy"
+        
         StartCoroutine(CheckAllEnemiesDefeated());
     }
 
     private IEnumerator CheckAllEnemiesDefeated()
     {
-        // חכה מעט כדי שהאויבים יסיימו את כל תהליכי המוות שלהם
+        
         yield return new WaitForSeconds(0.1f);
 
-        // בודק שוב אם באמת אין אויבים עם תג "Enemy"
         while (GameObject.FindGameObjectsWithTag("Enemy").Length > 0)
         {
             yield return null;
         }
 
-        // עכשיו בטוח שכל האויבים מתו, הפעל את ה-Power-Up
+        
         if (playerAttack != null)
             playerAttack.ActivatePowerUp();
     }

@@ -1,8 +1,8 @@
-﻿// PlayerAttack.cs
+﻿
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
-using TMPro; // חשוב עבור TextMeshPro
+using TMPro; 
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -15,11 +15,11 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private string attackTrigger = "IsAttacking";
 
     [Header("Visual Effects")]
-    [SerializeField] private GameObject powerUpGrantedEffect; // מופעל פעם אחת אחרי סיום כל האויבים
-    [SerializeField] private GameObject poweredAttackEffect;  // מופעל בזמן התקפות לאחר הפאוור-אפ
+    [SerializeField] private GameObject powerUpGrantedEffect; 
+    [SerializeField] private GameObject poweredAttackEffect; 
 
     [Header("UI")]
-    [SerializeField] private TMP_Text powerUpText; // TextMeshPro שמודיע על Power-Up
+    [SerializeField] private TMP_Text powerUpText;
 
     private InputActions inputActions;
     private bool isAttacking = false;
@@ -61,7 +61,6 @@ public class PlayerAttack : MonoBehaviour
         attackCollider.enabled = false;
         isAttacking = false;
 
-        // אפקט התקפה משודרג מופעל רק אחרי הפאוור-אפ
         if (poweredUp && poweredAttackEffect != null)
         {
             Instantiate(poweredAttackEffect, transform.position, Quaternion.identity);
@@ -77,34 +76,34 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    // מופעל על ידי GameManager אחרי שכל האויבים מתו באמת
+    
     public void ActivatePowerUp()
     {
         Debug.Log("ActivatePowerUp נקראה!");
         Debug.Log("PowerUpText קיים? " + (powerUpText != null));
-        if (poweredUp) return; // מוודא שזה קורה פעם אחת בלבד
+        if (poweredUp) return; 
         poweredUp = true;
 
         Debug.Log("Power-up activated! Damage increased to " + poweredDamage);
 
-        // אפקט חד-פעמי מיד אחרי סיום כל האויבים
+        
         if (powerUpGrantedEffect != null)
         {
             Instantiate(powerUpGrantedEffect, transform.position, Quaternion.identity);
         }
 
-        // הפעלת UI שמודיע על Power-Up
+        
         if (powerUpText != null)
         {
             StartCoroutine(ShowPowerUpUI());
         }
     }
 
-    // קורוטינה להצגת הטקסט ל-2 שניות
+   
     private IEnumerator ShowPowerUpUI()
     {
-        powerUpText.gameObject.SetActive(true);           // מציג את הטקסט
-        yield return new WaitForSeconds(2f);              // מחכה 2 שניות
-        powerUpText.gameObject.SetActive(false);          // מסתיר שוב
+        powerUpText.gameObject.SetActive(true);           
+        yield return new WaitForSeconds(2f);              
+        powerUpText.gameObject.SetActive(false);          
     }
 }
