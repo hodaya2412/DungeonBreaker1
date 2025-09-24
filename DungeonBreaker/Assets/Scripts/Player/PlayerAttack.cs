@@ -79,20 +79,18 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-
+    //try again
     public void ActivatePowerUp()
     {
         
         if (poweredUp) return;
         poweredUp = true;
 
-
         if (powerUpGrantedEffect != null)
         {
             Instantiate(powerUpGrantedEffect, transform.position, Quaternion.identity);
         }
 
-        
         ShowPowerUpMessage();
     }
 
