@@ -16,10 +16,13 @@ public class PlayerAttack : MonoBehaviour
 
     [Header("Visual Effects")]
     [SerializeField] private GameObject powerUpGrantedEffect; 
-    [SerializeField] private GameObject poweredAttackEffect; 
+    [SerializeField] private GameObject poweredAttackEffect;
+ 
 
-    [Header("UI")]
-    [SerializeField] private TMP_Text powerUpText;
+    [Header("UI Panel")]
+    [SerializeField] private GameObject powerUpPanel; 
+
+
 
     private InputActions inputActions;
     private bool isAttacking = false;
@@ -76,34 +79,29 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    
+
     public void ActivatePowerUp()
     {
-        Debug.Log("ActivatePowerUp נקראה!");
-        Debug.Log("PowerUpText קיים? " + (powerUpText != null));
-        if (poweredUp) return; 
+        
+        if (poweredUp) return;
         poweredUp = true;
 
-        Debug.Log("Power-up activated! Damage increased to " + poweredDamage);
 
-        
         if (powerUpGrantedEffect != null)
         {
             Instantiate(powerUpGrantedEffect, transform.position, Quaternion.identity);
         }
 
         
-        if (powerUpText != null)
-        {
-            StartCoroutine(ShowPowerUpUI());
-        }
+        ShowPowerUpMessage();
     }
 
-   
-    private IEnumerator ShowPowerUpUI()
+
+    public void ShowPowerUpMessage()
     {
-        powerUpText.gameObject.SetActive(true);           
-        yield return new WaitForSeconds(2f);              
-        powerUpText.gameObject.SetActive(false);          
+        if (powerUpPanel != null)
+            powerUpPanel.SetActive(true); 
     }
+
+
 }

@@ -7,13 +7,14 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private float deathAnimationDuration = 2f;
     [SerializeField] private PlayerHealthUI healthUI;
+    [SerializeField] private GameObject gameOverPanel;
+
     private int currentHealth;
     public bool isDead = false;
 
     private void Awake()
     {
-        currentHealth = maxHealth;
-        Events.OnHealthChanged?.Invoke(currentHealth, maxHealth);
+        ResetHealth(); 
     }
 
     private void OnEnable()
@@ -61,21 +62,19 @@ public class PlayerHealth : MonoBehaviour
 
         isDead = true;
 
-        
         animator?.SetTrigger("IsDead");
 
-       
         StartCoroutine(StopGameAfterDeath(deathAnimationDuration));
     }
 
     private IEnumerator StopGameAfterDeath(float duration)
     {
-       
-        yield return new WaitForSeconds(duration);
+        yield return new WaitForSecondsRealtime(duration);
 
-        
+        if (gameOverPanel != null)
+            gameOverPanel.SetActive(true);
+
         Time.timeScale = 0f;
-        Debug.Log("Game Over");
     }
 
     public void Heal(int amount)
@@ -87,5 +86,13 @@ public class PlayerHealth : MonoBehaviour
         Events.OnHealthChanged?.Invoke(currentHealth, maxHealth);
         if (healthUI != null)
             healthUI.AddHealth(amount);
+    }
+
+   
+    public void ResetHealth()
+    {
+        currentHealth = maxHealth;
+        isDead = false;
+        Events.OnHealthChanged?.Invoke(currentHealth, maxHealth);
     }
 }
