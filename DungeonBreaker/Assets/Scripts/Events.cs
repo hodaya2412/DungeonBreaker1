@@ -7,6 +7,6 @@ public class Events
     public static  Action<GameObject> OnEnemyDeath;
     public static Action<int, int> OnHealthChanged;
 
-    public static Action<GameObject, int> OnEnemyHitPlayer;
+    public static Action<int> OnEnemyHitPlayer;
     
 }

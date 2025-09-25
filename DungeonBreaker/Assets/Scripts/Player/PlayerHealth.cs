@@ -19,12 +19,12 @@ public class PlayerHealth : MonoBehaviour
 
     private void OnEnable()
     {
-        Events.OnEnemyHitPlayer += TakeHitFromEnemy;
+        Events.OnEnemyHitPlayer += TakeDamage;
     }
 
     private void OnDisable()
     {
-        Events.OnEnemyHitPlayer -= TakeHitFromEnemy;
+        Events.OnEnemyHitPlayer -= TakeDamage;
     }
 
     private void TakeHitFromEnemy(GameObject player, int damage)
