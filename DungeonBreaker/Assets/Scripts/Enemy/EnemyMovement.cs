@@ -2,15 +2,17 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    public float speed = 2f;
     [SerializeField] Animator animator;
-    public bool canMove = true;
+    [SerializeField] EnemyDate enemyData;
+    float speed = 2f;
+    bool canMove = true;
 
     private int direction = 1;
     Rigidbody2D rb;
 
     void Start()
     {
+        speed = enemyData.speed;
         rb = GetComponent<Rigidbody2D>();
         if (rb == null)
         {

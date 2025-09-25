@@ -168,8 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 3730579570627173035}
   enemyMovement: {fileID: 1776743326244773032}
-  damage: 1
-  detectionRange: 5
+  enemyData: {fileID: 11400000, guid: 00497d88c92e55843ab4f23a45c49abb, type: 2}
   attackCooldown: 2
 --- !u!1 &1914481087499107231
 GameObject:
@@ -1005,10 +1004,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3000ce989096c644b923ecbb358c8ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 3
   animator: {fileID: 3730579570627173035}
   hitStunTime: 0.3
   healthUI: {fileID: 232112360220806452}
+  enemyData: {fileID: 11400000, guid: 00497d88c92e55843ab4f23a45c49abb, type: 2}
   currentHealth: 0
 --- !u!61 &4287346147986361595
 BoxCollider2D:
@@ -1095,9 +1094,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bab4a4008c0a1574badced9c251c64d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
   animator: {fileID: 3730579570627173035}
-  canMove: 1
+  enemyData: {fileID: 11400000, guid: 00497d88c92e55843ab4f23a45c49abb, type: 2}
 --- !u!95 &3730579570627173035
 Animator:
   serializedVersion: 7
@@ -1134,8 +1132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 3730579570627173035}
   enemyMovement: {fileID: 1776743326244773032}
-  damage: 1
-  detectionRange: 5
+  enemyData: {fileID: 11400000, guid: 00497d88c92e55843ab4f23a45c49abb, type: 2}
   attackCooldown: 2
 --- !u!114 &232112360220806452
 MonoBehaviour:

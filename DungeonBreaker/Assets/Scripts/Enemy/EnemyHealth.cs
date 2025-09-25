@@ -3,19 +3,17 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-
-    [SerializeField] int maxHealth = 3;
     [SerializeField] Animator animator;
     [SerializeField] float hitStunTime = 0.3f;
-    [SerializeField] private EnemyHealthUI healthUI; 
-
+    [SerializeField] private EnemyHealthUI healthUI;
+    [SerializeField] EnemyDate enemyData;
 
     public int currentHealth;
     EnemyMovement movement;
 
     private void OnEnable()
     {
-        currentHealth = maxHealth;
+        currentHealth = enemyData.health;
         Events.OnPlayerAttack += TakeHit;
         movement = GetComponent<EnemyMovement>();
     }

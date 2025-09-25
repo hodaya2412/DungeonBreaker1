@@ -4,8 +4,9 @@ public class EnemyAttack : MonoBehaviour
 {
     [SerializeField] private Animator animator;
     [SerializeField] private EnemyMovement enemyMovement;
-    public int damage = 1;
-    public float detectionRange = 5f;
+    [SerializeField] EnemyDate enemyData;
+    int damage = 1;
+    float detectionRange = 5f;
     [SerializeField] private float attackCooldown = 2f;
 
     private Transform player;
@@ -14,6 +15,8 @@ public class EnemyAttack : MonoBehaviour
 
     private void Start()
     {
+        damage = enemyData.damage;
+        detectionRange = enemyData.detectionRange;
         GameObject playerObj = GameObject.FindGameObjectWithTag("PlayerHitBox");
         if (playerObj != null)
             player = playerObj.transform;
