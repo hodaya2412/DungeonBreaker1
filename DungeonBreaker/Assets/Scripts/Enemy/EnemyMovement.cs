@@ -4,39 +4,51 @@ public class EnemyMovement : MonoBehaviour
 {
     [SerializeField] Animator animator;
     [SerializeField] EnemyDate enemyData;
-    float speed = 2f;
-    bool canMove = true;
 
+    private float speed;
+    private bool canMove = true;
     private int direction = 1;
-    Rigidbody2D rb;
+    private Rigidbody2D rb;
+
+    private IEnemyState currentState;
+
+    // מצבים
+    public IEnemyState patrolState;
+    public IEnemyState chaseState;
+    public IEnemyState attackState;
+    public IEnemyState specialAttackState;
+    public IEnemyState dieState;
 
     void Start()
     {
-        speed = enemyData.speed;
         rb = GetComponent<Rigidbody2D>();
-        if (rb == null)
-        {
-            Debug.LogError("RigidBody is null!");
-        }
+        if (rb == null) Debug.LogError("RigidBody is null!");
+
+        speed = enemyData.speed;
         direction = transform.localScale.x < 0 ? -1 : 1;
+
+        // יצירת מצבים
+        patrolState = new PatrolState(this);
+        chaseState = new ChaseState(this);
+        attackState = new AttackState(this);
+        specialAttackState = new SpecialAttackState(this);
+        dieState = new DieState(this);
+
+        // התחלת מצב פטרול
+        ChangeState(patrolState);
     }
 
-    private void Update()
+    void Update()
     {
-        if (canMove)
-        {
-            rb.linearVelocity = new Vector2(direction * speed, rb.linearVelocity.y);
+        currentState?.Execute();
 
-            if (animator != null)
-                animator.SetFloat("Speed", Mathf.Abs(direction * speed));
-        }
+        if (canMove)
+            rb.linearVelocity = new Vector2(direction * speed, rb.linearVelocity.y);
         else
-        {
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
 
-            if (animator != null)
-                animator.SetFloat("Speed", 0);
-        }
+        if (animator != null)
+            animator.SetFloat("Speed", canMove ? Mathf.Abs(direction * speed) : 0);
     }
 
     private void Flip()
@@ -55,25 +67,23 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    public void StopMoving()
-    {
-        canMove = false;
-    }
-
-    public void ResumeMoving()
-    {
-        canMove = true;
-    }
-
+    public void StopMoving() => canMove = false;
+    public void ResumeMoving() => canMove = true;
     public void SetDirection(int newDirection)
     {
-        if (newDirection != -1 && newDirection != 1)
-            return;
-
-        if (direction == newDirection)
-            return;
-
+        if (newDirection != -1 && newDirection != 1) return;
+        if (direction == newDirection) return;
         direction = newDirection;
         Flip();
     }
+
+    public void ChangeState(IEnemyState newState)
+    {
+        currentState?.Exit();
+        currentState = newState;
+        currentState.Enter();
+    }
+
+    public Animator GetAnimator() => animator;
+    public float GetSpeed() => speed;
 }

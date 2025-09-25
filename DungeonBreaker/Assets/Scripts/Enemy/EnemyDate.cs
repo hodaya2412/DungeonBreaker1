@@ -9,4 +9,6 @@ public class EnemyDate : ScriptableObject
     public int damage = 1;
     public float detectionRange = 5f;
     public float attackRange = 1f;
+    public float hitStunTime = 0.3f;
+    public float attackCooldown = 2f;
 }
