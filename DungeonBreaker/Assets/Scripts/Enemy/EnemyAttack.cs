@@ -39,6 +39,7 @@ public class EnemyAttack : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("PlayerHitBox") && Time.time >= nextAttackTime)
         {
+            Debug.Log("Enemy attacked! Damage: " + damage);
             animator?.SetTrigger("IsAttacking");
             Events.OnEnemyHitPlayer?.Invoke(damage);
 

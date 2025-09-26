@@ -46,3 +46,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAttack: {fileID: 0}
   gameOverPanel: {fileID: 0}
+  stage1Attack: {fileID: 11400000, guid: a4567b4755a6a744787cd3fa79376cfc, type: 2}
+  stage2Attack: {fileID: 11400000, guid: 1ee1e5a9ed9a8ef439e73bad8e6e1615, type: 2}

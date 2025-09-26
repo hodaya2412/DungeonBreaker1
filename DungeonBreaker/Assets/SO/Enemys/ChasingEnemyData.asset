@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyName: 
   speed: 5
-  health: 5
-  damage: 2
+  health: 8
+  damage: 1
   detectionRange: 5
   attackRange: 1
+  hitStunTime: 0.3
+  attackCooldown: 2

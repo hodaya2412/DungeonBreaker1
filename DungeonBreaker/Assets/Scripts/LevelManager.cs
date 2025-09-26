@@ -21,11 +21,9 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadScene("Level2");
     }
 
-    
     public void GoToLevel3()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("Level3"); 
+        SceneManager.LoadScene("Level3");
     }
-
 }

@@ -1,32 +1,20 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
-using TMPro; 
 
 public class PlayerAttack : MonoBehaviour
 {
     [Header("Attack Settings")]
-    [SerializeField] private int normalDamage = 1;
-    [SerializeField] private int poweredDamage = 3;
     [SerializeField] private Collider2D attackCollider;
-    [SerializeField] private float attackDuration = 0.3f;
     [SerializeField] private Animator animator;
     [SerializeField] private string attackTrigger = "IsAttacking";
 
-    [Header("Visual Effects")]
-    [SerializeField] private GameObject powerUpGrantedEffect; 
-    [SerializeField] private GameObject poweredAttackEffect;
- 
-
-    [Header("UI Panel")]
-    [SerializeField] private GameObject powerUpPanel; 
-
-
+    [Header("UI & PowerUp")]
+    [SerializeField] private GameObject powerUpPanel;
 
     private InputActions inputActions;
     private bool isAttacking = false;
-    private bool poweredUp = false;
+    private AttackData currentAttackData;
 
     private void Awake()
     {
@@ -35,19 +23,41 @@ public class PlayerAttack : MonoBehaviour
 
     private void OnEnable()
     {
+        EnableInput();
+    }
+
+    private void OnDisable()
+    {
+        DisableInput();
+    }
+
+    private void EnableInput()
+    {
         inputActions.Player.Enable();
         inputActions.Player.Attack.performed += OnAttackPerformed;
     }
 
-    private void OnDisable()
+    private void DisableInput()
     {
         inputActions.Player.Attack.performed -= OnAttackPerformed;
         inputActions.Player.Disable();
     }
 
+    public void ResetInput()
+    {
+        DisableInput();
+        EnableInput();
+    }
+
+    public void InitializeAttack(AttackData newAttackData)
+    {
+        currentAttackData = newAttackData;
+        ResetInput(); 
+    }
+
     private void OnAttackPerformed(InputAction.CallbackContext context)
     {
-        if (!isAttacking)
+        if (!isAttacking && currentAttackData != null)
         {
             animator?.SetTrigger(attackTrigger);
             StartCoroutine(DoAttack());
@@ -59,46 +69,38 @@ public class PlayerAttack : MonoBehaviour
         isAttacking = true;
         attackCollider.enabled = true;
 
-        yield return new WaitForSeconds(attackDuration);
+        if (currentAttackData.attackEffectPrefab != null)
+        {
+            GameObject effect = Instantiate(currentAttackData.attackEffectPrefab, transform.position, Quaternion.identity);
+            Destroy(effect, currentAttackData.attackDuration);
+        }
+
+        yield return new WaitForSeconds(currentAttackData.attackDuration);
 
         attackCollider.enabled = false;
         isAttacking = false;
-
-        if (poweredUp && poweredAttackEffect != null)
-        {
-            Instantiate(poweredAttackEffect, transform.position, Quaternion.identity);
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (isAttacking && other.CompareTag("Enemy"))
-        {
-            int damageToDeal = poweredUp ? poweredDamage : normalDamage;
-            Events.OnPlayerAttack?.Invoke(other.gameObject, damageToDeal);
-        }
+        if (!isAttacking || currentAttackData == null) return;
+        if (!other.CompareTag("Enemy")) return;
+
+        Events.OnPlayerAttack?.Invoke(other.gameObject, currentAttackData.damage);
     }
 
     public void ActivatePowerUp()
     {
-        
-        if (poweredUp) return;
-        poweredUp = true;
+        if (currentAttackData != null && currentAttackData.powerUpGrantedEffect != null)
+            Instantiate(currentAttackData.powerUpGrantedEffect, transform.position, Quaternion.identity);
 
-        if (powerUpGrantedEffect != null)
-        {
-            Instantiate(powerUpGrantedEffect, transform.position, Quaternion.identity);
-        }
-
-        ShowPowerUpMessage();
+        if (powerUpPanel != null)
+            powerUpPanel.SetActive(true);
     }
 
-
-    public void ShowPowerUpMessage()
+    public void ShowPowerUpPanel()
     {
         if (powerUpPanel != null)
-            powerUpPanel.SetActive(true); 
+            powerUpPanel.SetActive(true);
     }
-
-
 }

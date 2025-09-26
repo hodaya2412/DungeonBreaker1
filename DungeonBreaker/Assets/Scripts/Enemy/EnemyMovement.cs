@@ -12,7 +12,7 @@ public class EnemyMovement : MonoBehaviour
 
     private IEnemyState currentState;
 
-    // מצבים
+   
     public IEnemyState patrolState;
     public IEnemyState chaseState;
     public IEnemyState attackState;
@@ -27,14 +27,14 @@ public class EnemyMovement : MonoBehaviour
         speed = enemyData.speed;
         direction = transform.localScale.x < 0 ? -1 : 1;
 
-        // יצירת מצבים
+        
         patrolState = new PatrolState(this);
         chaseState = new ChaseState(this);
         attackState = new AttackState(this);
         specialAttackState = new SpecialAttackState(this);
         dieState = new DieState(this);
 
-        // התחלת מצב פטרול
+        
         ChangeState(patrolState);
     }
 

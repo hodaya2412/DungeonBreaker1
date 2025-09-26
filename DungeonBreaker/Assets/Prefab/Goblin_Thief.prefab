@@ -922,9 +922,6 @@ PrefabInstance:
       addedObject: {fileID: 3730579570627173035}
     - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: a22685f337eca7e44bb09d1c809c50fb, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8928405351695252053}
-    - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: a22685f337eca7e44bb09d1c809c50fb, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 232112360220806452}
   m_SourcePrefab: {fileID: 4843985084834002234, guid: a22685f337eca7e44bb09d1c809c50fb, type: 3}
 --- !u!4 &7777068476287195649 stripped
@@ -1118,22 +1115,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8928405351695252053
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8873686965564195426}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fd6a8db9297d0d458820e9a348059b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 3730579570627173035}
-  enemyMovement: {fileID: 1776743326244773032}
-  enemyData: {fileID: 11400000, guid: 00497d88c92e55843ab4f23a45c49abb, type: 2}
-  attackCooldown: 2
 --- !u!114 &232112360220806452
 MonoBehaviour:
   m_ObjectHideFlags: 0
