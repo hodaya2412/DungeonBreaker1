@@ -79,7 +79,6 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    //try again
     public void ActivatePowerUp()
     {
         
