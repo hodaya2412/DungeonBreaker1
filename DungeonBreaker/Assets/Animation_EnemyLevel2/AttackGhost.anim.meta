@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 759d42ae3f8019244be7ca116e2e9141
+guid: a5a2c89e054a27844a8a3d1a3daaec77
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 7400000
@@ -11,5 +11,5 @@ AssetOrigin:
   productId: 260797
   packageName: Animated Dungeon Characters 2D
   packageVersion: 1.0
-  assetPath: Assets/DungeonMonsters2D/Animation/Ghost/MoveGhost.anim
+  assetPath: Assets/DungeonMonsters2D/Animation/Ghost/AttackGhost.anim
   uploadId: 600989

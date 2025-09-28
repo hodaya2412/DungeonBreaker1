@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d158fe77d950f5418944040cec305f5, type: 3}
   m_Name: ChasingEnemyData
   m_EditorClassIdentifier: 
-  enemyName: 
+  enemyName: Ghost
   speed: 5
   health: 8
   damage: 1
   detectionRange: 5
-  attackRange: 1
+  attackRange: 3
   hitStunTime: 0.3
-  attackCooldown: 2
+  attackCooldown: 10

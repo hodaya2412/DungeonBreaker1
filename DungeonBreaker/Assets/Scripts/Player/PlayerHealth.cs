@@ -27,13 +27,6 @@ public class PlayerHealth : MonoBehaviour
         Events.OnEnemyHitPlayer -= TakeDamage;
     }
 
-    private void TakeHitFromEnemy(GameObject player, int damage)
-    {
-        if (player == gameObject)
-        {
-            TakeDamage(damage);
-        }
-    }
 
     public void TakeDamage(int damage)
     {

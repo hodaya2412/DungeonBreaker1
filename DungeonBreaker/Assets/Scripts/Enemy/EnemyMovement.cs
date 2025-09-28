@@ -4,15 +4,15 @@ public class EnemyMovement : MonoBehaviour
 {
     [SerializeField] Animator animator;
     [SerializeField] EnemyDate enemyData;
-
+    [SerializeField] int defultDirection =1;
     private float speed;
     private bool canMove = true;
-    private int direction = 1;
+    [SerializeField]private int direction = 1;
     private Rigidbody2D rb;
 
-    private IEnemyState currentState;
+  [SerializeField] private IEnemyState currentState;
 
-   
+    // מצבים
     public IEnemyState patrolState;
     public IEnemyState chaseState;
     public IEnemyState attackState;
@@ -25,11 +25,11 @@ public class EnemyMovement : MonoBehaviour
         if (rb == null) Debug.LogError("RigidBody is null!");
 
         speed = enemyData.speed;
-        direction = transform.localScale.x < 0 ? -1 : 1;
-
+        direction = transform.localScale.x< 0? -1:1;
+        
         
         patrolState = new PatrolState(this);
-        chaseState = new ChaseState(this);
+        chaseState = new ChaseState(this,GameObject.FindGameObjectWithTag("Player").transform); 
         attackState = new AttackState(this);
         specialAttackState = new SpecialAttackState(this);
         dieState = new DieState(this);
@@ -54,10 +54,10 @@ public class EnemyMovement : MonoBehaviour
     private void Flip()
     {
         Vector3 localScale = transform.localScale;
-        localScale.x = Mathf.Abs(localScale.x) * (direction == 1 ? 1 : -1);
+        localScale.x = direction * defultDirection;
         transform.localScale = localScale;
     }
-
+    
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Walls"))

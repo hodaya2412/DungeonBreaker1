@@ -1,6 +1,6 @@
-public interface IEnemyState
+public abstract class IEnemyState
 {
-    void Enter();   // נקרא כשמצב מתחיל
-    void Execute(); // נקרא בכל Update
-    void Exit();    // נקרא כשמצב מסתיים
+  public virtual void Enter() { }   // נקרא כשמצב מתחיל
+  public virtual void Execute() { } // נקרא בכל Update
+  public virtual void Exit() { }  // נקרא כשמצב מסתיים
 }

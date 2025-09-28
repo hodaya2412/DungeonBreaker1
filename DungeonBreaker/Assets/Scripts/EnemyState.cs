@@ -9,20 +9,20 @@ public class PatrolState : IEnemyState
         this.enemy = enemy;
     }
 
-    public void Enter()
+    public override void Enter()
     {
         enemy.ResumeMoving();
         
     }
 
-    public void Execute()
+    public override void Execute()
     {
-        // χεγ τωεθ μτθψεμ:
-        // δΰεια ζζ ιξιπδ εωξΰμδ ΰεθεξθιϊ μτι χιψεϊ (λαψ ιω μκ α-EnemyMovement)
-        // πιϊο μαγεχ ΰν δωηχο πξφΰ αθεεη εμωπεϊ ξφα μ-Chase
+        // Χ§Χ•Χ“ Χ¤Χ©Χ•Χ ΧΧ¤ΧΧ¨Χ•Χ:
+        // Χ”ΧΧ•Χ™Χ‘ Χ–Χ– Χ™ΧΧ™Χ Χ” Χ•Χ©ΧΧΧΧ” ΧΧ•ΧΧ•ΧΧΧ™Χª ΧΧ¤Χ™ Χ§Χ™Χ¨Χ•Χª (Χ›Χ‘Χ¨ Χ™Χ© ΧΧ Χ‘-EnemyMovement)
+        // Χ Χ™ΧªΧ ΧΧ‘Χ“Χ•Χ§ ΧΧ Χ”Χ©Χ—Χ§Χ Χ ΧΧ¦Χ Χ‘ΧΧ•Χ•Χ— Χ•ΧΧ©Χ Χ•Χª ΧΧ¦Χ‘ Χ-Chase
     }
 
-    public void Exit()
+    public override void Exit()
     {
         enemy.StopMoving();
     }
@@ -35,26 +35,27 @@ public class ChaseState : IEnemyState
     private EnemyMovement enemy;
     private Transform player;
 
-    public ChaseState(EnemyMovement enemy)
+
+    public ChaseState(EnemyMovement enemy, Transform player)
     {
         this.enemy = enemy;
-        player = GameObject.FindGameObjectWithTag("Player")?.transform;
+        this.player = player;
     }
 
-    public void Enter()
+    public override void Enter()
     {
         enemy.ResumeMoving();
     }
 
-    public void Execute()
+    public override void Execute()
     {
         if (player == null) return;
 
         
-        enemy.SetDirection(player.position.x > enemy.transform.position.x ? 1 : -1);
+        enemy.SetDirection(player.position.x < enemy.transform.position.x ? 1 : -1);
 
         
-        enemy.transform.position += Vector3.right * enemy.transform.localScale.x * enemy.GetSpeed() * Time.deltaTime;
+        enemy.transform.position +=  Vector3.left * enemy.transform.localScale.x * enemy.GetSpeed() * Time.deltaTime;
 
        
         if (Vector2.Distance(enemy.transform.position, player.position) < 1.5f)
@@ -63,7 +64,7 @@ public class ChaseState : IEnemyState
         }
     }
 
-    public void Exit()
+    public override void Exit()
     {
         enemy.StopMoving();
     }
@@ -81,25 +82,25 @@ public class AttackState : IEnemyState
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
     }
 
-    public void Enter()
+    public override void Enter()
     {
         enemy.StopMoving();
         Animator anim = enemy.GetAnimator();
         if (anim != null)
-            anim.SetTrigger("Attack");
+            anim.SetTrigger("IsAttacking");
     }
 
-    public void Execute()
+    public override void Execute()
     {
-        // λΰο ΰτωψ μδερισ χεγ μβψιξϊ πζχ μωηχο
-        // ΰτωψ μαγεχ ξψηχ εμηζεψ μ-Chase ΰν δωηχο δϊψηχ
+        // Χ›ΧΧ ΧΧ¤Χ©Χ¨ ΧΧ”Χ•Χ΅Χ™Χ£ Χ§Χ•Χ“ ΧΧ’Χ¨Χ™ΧΧª Χ Χ–Χ§ ΧΧ©Χ—Χ§Χ
+        // ΧΧ¤Χ©Χ¨ ΧΧ‘Χ“Χ•Χ§ ΧΧ¨Χ—Χ§ Χ•ΧΧ—Χ–Χ•Χ¨ Χ-Chase ΧΧ Χ”Χ©Χ—Χ§Χ Χ”ΧªΧ¨Χ—Χ§
         if (player != null && Vector2.Distance(enemy.transform.position, player.position) > 2f)
         {
             enemy.ChangeState(enemy.chaseState);
         }
     }
 
-    public void Exit()
+    public override void Exit()
     {
         enemy.ResumeMoving();
     }
@@ -114,7 +115,7 @@ public class SpecialAttackState : IEnemyState
         this.enemy = enemy;
     }
 
-    public void Enter()
+    public override void Enter()
     {
         enemy.StopMoving();
         
@@ -123,12 +124,12 @@ public class SpecialAttackState : IEnemyState
             anim.SetTrigger("SpecialAttack");
     }
 
-    public void Execute()
+    public override void Execute()
     {
-        // χεγ μξϊχτδ ξιεηγϊ
+        // Χ§Χ•Χ“ ΧΧΧªΧ§Χ¤Χ” ΧΧ™Χ•Χ—Χ“Χª
     }
 
-    public void Exit()
+    public override void Exit()
     {
         enemy.ResumeMoving();
     }
@@ -144,19 +145,19 @@ public class DieState : IEnemyState
         this.enemy = enemy;
     }
 
-    public void Enter()
+    public override void Enter()
     {
         enemy.StopMoving();
         Animator anim = enemy.GetAnimator();
         if (anim != null)
-            anim.SetTrigger("Die");
+            anim.SetTrigger("IsDead");
 
-        // ΰτωψ μξηεχ ΰϊ δΰειια ΰηψι ΰπιξφιιϊ ξεεϊ
+        // ΧΧ¤Χ©Χ¨ ΧΧΧ—Χ•Χ§ ΧΧª Χ”ΧΧ•Χ™Χ™Χ‘ ΧΧ—Χ¨Χ™ ΧΧ Χ™ΧΧ¦Χ™Χ™Χª ΧΧ•Χ•Χª
         Object.Destroy(enemy.gameObject, 2f);
     }
 
-    public void Execute() { }
+    public override void Execute() { }
 
-    public void Exit() { }
+    public override void Exit() { }
 }
 

@@ -26,11 +26,12 @@ public class EnemyAttack : MonoBehaviour
     {
         if (player == null || enemyMovement == null) return;
 
-        float distance = Vector2.Distance(transform.position, player.position);
+        float distance = Vector2.Distance(enemyMovement.transform.position, player.position);
 
         if (distance <= detectionRange && Time.time >= nextAttackTime)
         {
-            lastDirection = player.position.x > transform.position.x ? 1 : -1;
+            Debug.Log("Player:" + player.position + "enemy:" + enemyMovement.transform.position+" distance "+distance);
+            lastDirection = player.position.x > enemyMovement.transform.position.x ? 1 : -1;
             enemyMovement.SetDirection(lastDirection);
         }
     }
