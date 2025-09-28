@@ -4,7 +4,7 @@ public class EnemyMovement : MonoBehaviour
 {
     [SerializeField] Animator animator;
     [SerializeField] EnemyDate enemyData;
-    [SerializeField] int defultDirection =1;
+    [SerializeField] int defaultDirection =1;
     private float speed;
     private bool canMove = true;
     [SerializeField]private int direction = 1;
@@ -25,7 +25,7 @@ public class EnemyMovement : MonoBehaviour
         if (rb == null) Debug.LogError("RigidBody is null!");
 
         speed = enemyData.speed;
-        direction = transform.localScale.x< 0? -1:1;
+        direction = (transform.localScale.x< 0? -1:1) * defaultDirection;
         
         
         patrolState = new PatrolState(this);
@@ -54,7 +54,7 @@ public class EnemyMovement : MonoBehaviour
     private void Flip()
     {
         Vector3 localScale = transform.localScale;
-        localScale.x = direction * defultDirection;
+        localScale.x = direction * defaultDirection;
         transform.localScale = localScale;
     }
     

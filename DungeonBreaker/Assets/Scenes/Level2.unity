@@ -730,11 +730,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6305220007921409398, guid: 8937cbf00b921bf4d8a358c9b7eab436, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6305220007921409398, guid: 8937cbf00b921bf4d8a358c9b7eab436, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777068476287195649, guid: 8937cbf00b921bf4d8a358c9b7eab436, type: 3}
+      propertyPath: m_LocalScale.x
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 7777068476287195649, guid: 8937cbf00b921bf4d8a358c9b7eab436, type: 3}
       propertyPath: m_LocalPosition.x
@@ -786,7 +790,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8873686965564195426, guid: 8937cbf00b921bf4d8a358c9b7eab436, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -926,7 +930,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 1365639369}
   enemyData: {fileID: 11400000, guid: 246ef3a011f26374d94391106486d996, type: 2}
-  defultDirection: -1
+  defaultDirection: -1
   direction: 1
 --- !u!95 &1365639369 stripped
 Animator:
@@ -1528,7 +1532,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 6981722425978098365}
   enemyData: {fileID: 11400000, guid: 246ef3a011f26374d94391106486d996, type: 2}
-  defultDirection: 1
+  defaultDirection: 1
   direction: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
