@@ -178,7 +178,6 @@ MonoBehaviour:
   animator: {fileID: 1365639369}
   enemyMovement: {fileID: 1365639366}
   enemyData: {fileID: 11400000, guid: 246ef3a011f26374d94391106486d996, type: 2}
-  attackCooldown: 2
 --- !u!61 &65846449
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -404,7 +403,6 @@ MonoBehaviour:
   animator: {fileID: 0}
   enemyMovement: {fileID: 0}
   enemyData: {fileID: 11400000, guid: 246ef3a011f26374d94391106486d996, type: 2}
-  attackCooldown: 2
 --- !u!61 &451356242
 BoxCollider2D:
   m_ObjectHideFlags: 0

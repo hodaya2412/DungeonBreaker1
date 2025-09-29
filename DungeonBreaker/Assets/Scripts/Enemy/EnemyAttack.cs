@@ -4,45 +4,60 @@ public class EnemyAttack : MonoBehaviour
 {
     [SerializeField] private Animator animator;
     [SerializeField] private EnemyMovement enemyMovement;
-    [SerializeField] EnemyDate enemyData;
-    int damage = 1;
-    float detectionRange = 5f;
-    [SerializeField] private float attackCooldown = 2f;
+    [SerializeField] private EnemyDate enemyData;
 
+    private int damage = 1;
+    private float attackCooldown = 2f;
     private Transform player;
     private float nextAttackTime = 0f;
-    private int lastDirection = 1;
 
     private void Start()
     {
-        damage = enemyData.damage;
-        detectionRange = enemyData.detectionRange;
+        if (enemyData != null)
+        {
+            damage = enemyData.damage;
+            attackCooldown = enemyData.attackCooldown;
+        }
+
+        if (enemyMovement == null)
+            enemyMovement = GetComponent<EnemyMovement>();
+
         GameObject playerObj = GameObject.FindGameObjectWithTag("PlayerHitBox");
+        if (playerObj == null)
+            playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
             player = playerObj.transform;
     }
 
-    private void Update()
+    public bool CanAttack()
     {
-        if (player == null || enemyMovement == null) return;
+        return Time.time >= nextAttackTime;
+    }
 
-        float distance = Vector2.Distance(enemyMovement.transform.position, player.position);
-        if (distance <= detectionRange && Time.time >= nextAttackTime)
+    public void TriggerAttack()
+    {
+        if (!CanAttack()) return;
+
+        animator?.SetTrigger("IsAttacking");
+        Events.OnEnemyHitPlayer?.Invoke(damage);
+        nextAttackTime = Time.time + attackCooldown;
+    }
+
+    // זה יופעל אוטומטית כשהשחקנית נכנסת ל־Collider של האויב (טווח התקפה)
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("PlayerHitBox") && CanAttack())
         {
-            lastDirection = player.position.x > enemyMovement.transform.position.x ? 1 : -1;
-            enemyMovement.SetDirection(lastDirection);
+            TriggerAttack();
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    // אם רוצים להמשיך להפעיל התקפה גם כשהשחקנית נשארת בטווח:
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("PlayerHitBox") && Time.time >= nextAttackTime)
+        if (collision.CompareTag("PlayerHitBox") && CanAttack())
         {
-            Debug.Log("Enemy attacked! Damage: " + damage);
-            animator?.SetTrigger("IsAttacking");
-            Events.OnEnemyHitPlayer?.Invoke(damage);
-
-            nextAttackTime = Time.time + attackCooldown;
+            TriggerAttack();
         }
     }
 }
