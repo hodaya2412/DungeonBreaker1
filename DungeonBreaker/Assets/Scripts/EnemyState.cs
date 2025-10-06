@@ -1,6 +1,58 @@
 using UnityEngine;
+#region SpiritIdleState
+public class SpiritIdleState : IEnemyState
+{
+    private EnemyMovement enemy;
+    private Transform player;
+
+    public SpiritIdleState(EnemyMovement enemy)
+    {
+        this.enemy = enemy;
+        player = enemy.GetPlayer();
+    }
+
+    public override void Enter()
+    {
+        // עצור את התנועה
+        enemy.StopMoving();
+    }
+
+    public override void Execute()
+    {
+        if (player == null) player = enemy.FindPlayer();
+        if (player == null) return;
+
+        float dist = Vector2.Distance(enemy.transform.position, player.position);
+        float attackRange = enemy.GetEnemyDate().attackRange;
+        float detection = enemy.GetEnemyDate().detectionRange;
+        var attackComp = enemy.GetEnemyAttack();
+
+        // אם השחקנית בטווח התקפה — התקפה
+        if (dist <= attackRange && (attackComp == null || attackComp.CanAttack()))
+        {
+            enemy.ChangeState(enemy.attackState);
+            return;
+        }
+
+        // אם השחקנית בטווח גילוי — רדיפה
+        if (dist <= detection)
+        {
+            enemy.ChangeState(enemy.chaseState);
+            return;
+        }
+
+        // אם השחקנית מחוץ לטווח — נשאר במקום, אין פטרול!
+    }
+
+    public override void Exit()
+    {
+        enemy.ResumeMoving();
+    }
+}
+#endregion
 
 #region IdleState
+
 public class IdleState : IEnemyState
 {
     private EnemyMovement enemy;
@@ -154,7 +206,7 @@ public class AttackState : IEnemyState
     private Transform player;
     private bool attackedThisEntry = false;
     private float attackTime = 0f;
-    private float postAttackDelay = 1f; // זמן חיכוי אחרי התקפה (בין התקפה לפטרול)
+    private float postAttackDelay = 1f; // זמן חיכוי אחרי התקפה
 
     public AttackState(EnemyMovement enemy)
     {
@@ -174,7 +226,7 @@ public class AttackState : IEnemyState
         if (player == null) player = enemy.FindPlayer();
         if (player == null)
         {
-            enemy.ChangeState(enemy.patrolState);
+            ReturnToIdleOrPatrol();
             return;
         }
 
@@ -191,31 +243,43 @@ public class AttackState : IEnemyState
             return;
         }
 
-        // אם התקפה בוצעה, חכה כמה שניות לפני המעבר לפטרול
+        // אם התקפה בוצעה, חכה כמה שניות לפני המעבר למצב הבא
         if (attackedThisEntry)
         {
             if (Time.time - attackTime >= postAttackDelay)
             {
-                enemy.ChangeState(enemy.patrolState);
+                ReturnToIdleOrPatrol();
                 return;
             }
-            // אחרת נשאר כאן ומחכה
-            return;
+            return; // נשאר כאן ומחכה
         }
 
-        // אם השחקנית יצאה מטווח דיטקשן — חזור לפטרול
+        // אם השחקנית יצאה מטווח דיטקשן — חזור למצב המתאים
         if (dist > detection)
         {
-            enemy.ChangeState(enemy.patrolState);
+            ReturnToIdleOrPatrol();
             return;
+        }
+    }
+
+    private void ReturnToIdleOrPatrol()
+    {
+        if (enemy.GetEnemyDate().enemyType == EnemyType.Spirit)
+        {
+            enemy.ChangeState(enemy.spiritIdleState);
+        }
+        else
+        {
+            enemy.ChangeState(enemy.patrolState);
         }
     }
 
     public override void Exit()
     {
-        // הפטרול כבר יטפל בכיוונים
+        // הפטרול או ה-Idle יטפלו בכיוונים
     }
 }
+
 
 #endregion
 

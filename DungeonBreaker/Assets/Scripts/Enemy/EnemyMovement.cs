@@ -19,6 +19,7 @@ public class EnemyMovement : MonoBehaviour
     public IEnemyState attackState;
     public IEnemyState idleState;
     public IEnemyState dieState;
+    public IEnemyState spiritIdleState;
 
     private Transform player;
 
@@ -38,9 +39,20 @@ public class EnemyMovement : MonoBehaviour
         attackState = new AttackState(this);
         idleState = new IdleState(this);
         dieState = new DieState(this);
+        spiritIdleState = new SpiritIdleState(this);
 
-        ChangeState(patrolState);
+        // אתחול לפי סוג האויב
+        if (enemyData.enemyType == EnemyType.Spirit)
+        {
+            ChangeState(spiritIdleState);
+        }
+        else
+        {
+            ChangeState(patrolState);
+        }
     }
+
+
 
     void Update()
     {

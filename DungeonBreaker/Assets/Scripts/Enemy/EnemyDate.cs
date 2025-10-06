@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "EnemyDate", menuName = "Scriptable Objects/EnemyDate")]
 public class EnemyDate : ScriptableObject
 {
+    public EnemyType enemyType = EnemyType.Normal; // סוג האויב
     public string enemyName;
     public float speed = 2f;
     public int health = 3;
@@ -12,3 +13,4 @@ public class EnemyDate : ScriptableObject
     public float hitStunTime = 0.3f;
     public float attackCooldown = 2f;
 }
+public enum EnemyType { Normal, Spirit, Boss }
