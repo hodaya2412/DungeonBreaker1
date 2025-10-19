@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
+   
+
     public void RestartLevel()
     {
         Time.timeScale = 1f;
@@ -20,9 +22,12 @@ public class LevelManager : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadScene("Level2");
     }
+   
+
 
     public void GoToLevel3()
     {
+        Debug.Log("Button pressed! Trying to load Level3...");
         Time.timeScale = 1f;
         SceneManager.LoadScene("Level3");
     }

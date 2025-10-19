@@ -13,6 +13,8 @@ public class AttackData : ScriptableObject
     [Header("Visual Effects")]
     public GameObject attackEffectPrefab;       // האפקט שמופעל בזמן ההתקפה
     public GameObject powerUpGrantedEffect;     // אפקט שמופיע כשהשחקן מקבל את ההתקפה
+
+   
 }
 
 

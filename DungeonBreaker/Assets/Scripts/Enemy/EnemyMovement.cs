@@ -46,6 +46,10 @@ public class EnemyMovement : MonoBehaviour
         {
             ChangeState(spiritIdleState);
         }
+        else if(enemyData.enemyType == EnemyType.Boss)
+        {
+            ChangeState(spiritIdleState);
+        }
         else
         {
             ChangeState(patrolState);

@@ -20,9 +20,9 @@ public class CameraFollow : MonoBehaviour
 
     void LateUpdate()
     {
-        
 
         
+
         float targetX = player.position.x;
 
         

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 #region SpiritIdleState
 public class SpiritIdleState : IEnemyState
@@ -22,26 +23,43 @@ public class SpiritIdleState : IEnemyState
         if (player == null) player = enemy.FindPlayer();
         if (player == null) return;
 
+        // הסתובב תמיד לעבר השחקנית
+        if (player.position.x > enemy.transform.position.x)
+            enemy.SetDirection(-1);
+        else
+            enemy.SetDirection(1);
+
         float dist = Vector2.Distance(enemy.transform.position, player.position);
         float attackRange = enemy.GetEnemyDate().attackRange;
         float detection = enemy.GetEnemyDate().detectionRange;
         var attackComp = enemy.GetEnemyAttack();
 
-        // אם השחקנית בטווח התקפה — התקפה
-        if (dist <= attackRange && (attackComp == null || attackComp.CanAttack()))
+        if (enemy.GetEnemyDate().enemyType == EnemyType.Spirit)
         {
-            enemy.ChangeState(enemy.attackState);
-            return;
-        }
+            // אם השחקנית בטווח התקפה — התקפה
+            if (dist <= attackRange && (attackComp == null || attackComp.CanAttack()))
+            {
+                enemy.ChangeState(enemy.attackState);
+                return;
+            }
 
-        // אם השחקנית בטווח גילוי — רדיפה
-        if (dist <= detection)
+            // אם השחקנית בטווח גילוי — רדיפה
+            if (dist <= detection)
+            {
+                enemy.ChangeState(enemy.chaseState);
+                return;
+            }
+
+            // אם השחקנית מחוץ לטווח — נשאר במקום
+        }
+        if (enemy.GetEnemyDate().enemyType == EnemyType.Boss)
         {
-            enemy.ChangeState(enemy.chaseState);
-            return;
+            if (dist <= attackRange && (attackComp == null || attackComp.CanAttack()))
+            {
+                enemy.ChangeState(enemy.attackState);
+                return;
+            }
         }
-
-        // אם השחקנית מחוץ לטווח — נשאר במקום, אין פטרול!
     }
 
     public override void Exit()
@@ -49,6 +67,7 @@ public class SpiritIdleState : IEnemyState
         enemy.ResumeMoving();
     }
 }
+
 #endregion
 
 #region IdleState
@@ -264,7 +283,7 @@ public class AttackState : IEnemyState
 
     private void ReturnToIdleOrPatrol()
     {
-        if (enemy.GetEnemyDate().enemyType == EnemyType.Spirit)
+        if (enemy.GetEnemyDate().enemyType == EnemyType.Spirit || enemy.GetEnemyDate().enemyType == EnemyType.Boss)
         {
             enemy.ChangeState(enemy.spiritIdleState);
         }
