@@ -32,12 +32,20 @@ public class SpiritIdleState : IEnemyState
         if (player == null) return;
 
         if (!IsPlayerOnSameHeight()) return;
-
-        if (player.position.x > enemy.transform.position.x)
-            enemy.SetDirection(1);
+        if (enemy.GetEnemyDate().enemyType == EnemyType.Boss)
+        {
+            if (player.position.x > enemy.transform.position.x)
+                enemy.SetDirection(-1);
+            else
+                enemy.SetDirection(1);
+        }
         else
-            enemy.SetDirection(-1);
-
+        {
+            if (player.position.x > enemy.transform.position.x)
+                enemy.SetDirection(1);
+            else
+                enemy.SetDirection(-1);
+        }
         float dist = Vector2.Distance(enemy.transform.position, player.position);
         float attackRange = enemy.GetEnemyDate().attackRange;
         float detection = enemy.GetEnemyDate().detectionRange;
@@ -78,6 +86,7 @@ public class SpiritIdleState : IEnemyState
 #region IdleState
 public class IdleState : IEnemyState
 {
+    
     private EnemyMovement enemy;
     private Transform player;
     private float yTolerance = 0.5f;
@@ -141,6 +150,7 @@ public class PatrolState : IEnemyState
 
     public PatrolState(EnemyMovement enemy)
     {
+        Debug.Log("PatrolState: Execute running");
         this.enemy = enemy;
         player = enemy.GetPlayer();
     }
@@ -266,6 +276,7 @@ public class AttackState : IEnemyState
 
     public AttackState(EnemyMovement enemy)
     {
+        Debug.Log("AttackState: Execute running");
         this.enemy = enemy;
         attackComp = enemy.GetComponent<EnemyAttack>();
         player = enemy.GetPlayer();
@@ -301,6 +312,7 @@ public class AttackState : IEnemyState
 
         if (!attackedThisEntry && attackComp != null && attackComp.CanAttack() && dist <= attackRange)
         {
+            Debug.Log("AttackState: Triggering attack");
             attackComp.TriggerAttack();
             attackedThisEntry = true;
             attackTime = Time.time;

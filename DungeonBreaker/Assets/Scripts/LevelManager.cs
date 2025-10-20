@@ -27,7 +27,6 @@ public class LevelManager : MonoBehaviour
 
     public void GoToLevel3()
     {
-        Debug.Log("Button pressed! Trying to load Level3...");
         Time.timeScale = 1f;
         SceneManager.LoadScene("Level3");
     }

@@ -43,7 +43,7 @@ public class EnemyMovement : MonoBehaviour
 
         patrolState = new PatrolState(this);
         chaseState = new ChaseState(this);
-        attackState = new AttackState(this);
+        //attackState = new AttackState(this);
         idleState = new IdleState(this);
         dieState = new DieState(this);
         spiritIdleState = new SpiritIdleState(this);
