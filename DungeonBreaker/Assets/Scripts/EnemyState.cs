@@ -1,10 +1,12 @@
 using Unity.VisualScripting;
 using UnityEngine;
+
 #region SpiritIdleState
 public class SpiritIdleState : IEnemyState
 {
     private EnemyMovement enemy;
     private Transform player;
+    private float yTolerance =1f;
 
     public SpiritIdleState(EnemyMovement enemy)
     {
@@ -12,9 +14,15 @@ public class SpiritIdleState : IEnemyState
         player = enemy.GetPlayer();
     }
 
+    private bool IsPlayerOnSameHeight()
+    {
+        if (player == null) return false;
+        float deltaY = Mathf.Abs(player.position.y - enemy.transform.position.y);
+        return deltaY <= yTolerance;
+    }
+
     public override void Enter()
     {
-        // עצור את התנועה
         enemy.StopMoving();
     }
 
@@ -23,11 +31,12 @@ public class SpiritIdleState : IEnemyState
         if (player == null) player = enemy.FindPlayer();
         if (player == null) return;
 
-        // הסתובב תמיד לעבר השחקנית
+        if (!IsPlayerOnSameHeight()) return;
+
         if (player.position.x > enemy.transform.position.x)
-            enemy.SetDirection(-1);
-        else
             enemy.SetDirection(1);
+        else
+            enemy.SetDirection(-1);
 
         float dist = Vector2.Distance(enemy.transform.position, player.position);
         float attackRange = enemy.GetEnemyDate().attackRange;
@@ -36,22 +45,19 @@ public class SpiritIdleState : IEnemyState
 
         if (enemy.GetEnemyDate().enemyType == EnemyType.Spirit)
         {
-            // אם השחקנית בטווח התקפה — התקפה
             if (dist <= attackRange && (attackComp == null || attackComp.CanAttack()))
             {
                 enemy.ChangeState(enemy.attackState);
                 return;
             }
 
-            // אם השחקנית בטווח גילוי — רדיפה
             if (dist <= detection)
             {
                 enemy.ChangeState(enemy.chaseState);
                 return;
             }
-
-            // אם השחקנית מחוץ לטווח — נשאר במקום
         }
+
         if (enemy.GetEnemyDate().enemyType == EnemyType.Boss)
         {
             if (dist <= attackRange && (attackComp == null || attackComp.CanAttack()))
@@ -67,20 +73,26 @@ public class SpiritIdleState : IEnemyState
         enemy.ResumeMoving();
     }
 }
-
 #endregion
 
 #region IdleState
-
 public class IdleState : IEnemyState
 {
     private EnemyMovement enemy;
     private Transform player;
+    private float yTolerance = 0.5f;
 
     public IdleState(EnemyMovement enemy)
     {
         this.enemy = enemy;
         player = enemy.GetPlayer();
+    }
+
+    private bool IsPlayerOnSameHeight()
+    {
+        if (player == null) return false;
+        float deltaY = Mathf.Abs(player.position.y - enemy.transform.position.y);
+        return deltaY <= yTolerance;
     }
 
     public override void Enter()
@@ -92,6 +104,8 @@ public class IdleState : IEnemyState
     {
         if (player == null) player = enemy.FindPlayer();
         if (player == null) return;
+
+        if (!IsPlayerOnSameHeight()) return;
 
         float dist = Vector2.Distance(enemy.transform.position, player.position);
         float detection = enemy.GetEnemyDate().detectionRange;
@@ -123,11 +137,19 @@ public class PatrolState : IEnemyState
 {
     private EnemyMovement enemy;
     private Transform player;
+    private float yTolerance = 0.5f;
 
     public PatrolState(EnemyMovement enemy)
     {
         this.enemy = enemy;
         player = enemy.GetPlayer();
+    }
+
+    private bool IsPlayerOnSameHeight()
+    {
+        if (player == null) return false;
+        float deltaY = Mathf.Abs(player.position.y - enemy.transform.position.y);
+        return deltaY <= yTolerance;
     }
 
     public override void Enter()
@@ -139,6 +161,10 @@ public class PatrolState : IEnemyState
     {
         if (player == null) player = enemy.FindPlayer();
         if (player == null) return;
+
+
+        if (!IsPlayerOnSameHeight()) return;
+
 
         float dist = Vector2.Distance(enemy.transform.position, player.position);
         float detection = enemy.GetEnemyDate().detectionRange;
@@ -169,11 +195,19 @@ public class ChaseState : IEnemyState
 {
     private EnemyMovement enemy;
     private Transform player;
+    private float yTolerance = 0.5f;
 
     public ChaseState(EnemyMovement enemy)
     {
         this.enemy = enemy;
         player = enemy.GetPlayer();
+    }
+
+    private bool IsPlayerOnSameHeight()
+    {
+        if (player == null) return false;
+        float deltaY = Mathf.Abs(player.position.y - enemy.transform.position.y);
+        return deltaY <= yTolerance;
     }
 
     public override void Enter()
@@ -190,12 +224,14 @@ public class ChaseState : IEnemyState
             return;
         }
 
+
+        if (!IsPlayerOnSameHeight()) return;
+
         float dist = Vector2.Distance(enemy.transform.position, player.position);
         float detection = enemy.GetEnemyDate().detectionRange;
         float attackRange = enemy.GetEnemyDate().attackRange;
         var attackComp = enemy.GetEnemyAttack();
 
-        // הכוון לשחקנית
         int dir = (player.position.x > enemy.transform.position.x) ? 1 : -1;
         enemy.SetDirection(dir);
 
@@ -212,12 +248,12 @@ public class ChaseState : IEnemyState
         }
     }
 
+
     public override void Exit() { }
 }
 #endregion
 
 #region AttackState
-
 public class AttackState : IEnemyState
 {
     private EnemyMovement enemy;
@@ -225,13 +261,21 @@ public class AttackState : IEnemyState
     private Transform player;
     private bool attackedThisEntry = false;
     private float attackTime = 0f;
-    private float postAttackDelay = 1f; // זמן חיכוי אחרי התקפה
+    private float postAttackDelay = 1f;
+    private float yTolerance = 1f;
 
     public AttackState(EnemyMovement enemy)
     {
         this.enemy = enemy;
         attackComp = enemy.GetComponent<EnemyAttack>();
         player = enemy.GetPlayer();
+    }
+
+    private bool IsPlayerOnSameHeight()
+    {
+        if (player == null) return false;
+        float deltaY = Mathf.Abs(player.position.y - enemy.transform.position.y);
+        return deltaY <= yTolerance;
     }
 
     public override void Enter()
@@ -249,20 +293,20 @@ public class AttackState : IEnemyState
             return;
         }
 
+        if (!IsPlayerOnSameHeight()) return;
+
         float dist = Vector2.Distance(enemy.transform.position, player.position);
         float attackRange = enemy.GetEnemyDate().attackRange;
         float detection = enemy.GetEnemyDate().detectionRange;
 
-        // אם עדיין לא התקפנו — הפעל התקפה
         if (!attackedThisEntry && attackComp != null && attackComp.CanAttack() && dist <= attackRange)
         {
             attackComp.TriggerAttack();
             attackedThisEntry = true;
-            attackTime = Time.time; // רשום את זמן ההתקפה
+            attackTime = Time.time;
             return;
         }
 
-        // אם התקפה בוצעה, חכה כמה שניות לפני המעבר למצב הבא
         if (attackedThisEntry)
         {
             if (Time.time - attackTime >= postAttackDelay)
@@ -270,10 +314,9 @@ public class AttackState : IEnemyState
                 ReturnToIdleOrPatrol();
                 return;
             }
-            return; // נשאר כאן ומחכה
+            return;
         }
 
-        // אם השחקנית יצאה מטווח דיטקשן — חזור למצב המתאים
         if (dist > detection)
         {
             ReturnToIdleOrPatrol();
@@ -293,13 +336,8 @@ public class AttackState : IEnemyState
         }
     }
 
-    public override void Exit()
-    {
-        // הפטרול או ה-Idle יטפלו בכיוונים
-    }
+    public override void Exit() { }
 }
-
-
 #endregion
 
 #region DieState
@@ -323,5 +361,5 @@ public class DieState : IEnemyState
     public override void Execute() { }
 
     public override void Exit() { }
-}//please work
+}
 #endregion

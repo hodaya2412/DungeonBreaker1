@@ -62,14 +62,12 @@ public class EnemyHealth : MonoBehaviour
         if (isDead) return;
         isDead = true;
 
-        // עצירת תנועה והתקפה
         if (movement != null)
             movement.StopMoving();
         if (attack != null)
-            attack.enabled = false; // מונע התקפות נוספות
+            attack.enabled = false;
 
-        if (animator != null)
-            animator.SetTrigger("IsDead");
+        // הסר את השורה: animator.SetTrigger("IsDead");
 
         Events.OnEnemyDeath?.Invoke(gameObject);
 
