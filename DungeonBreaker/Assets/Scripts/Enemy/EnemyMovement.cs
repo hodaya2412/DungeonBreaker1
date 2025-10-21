@@ -7,13 +7,6 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private EnemyDate enemyData;
     [SerializeField] private int defaultDirection = 1;
 
-
-    [Header("Bound for Ghost")]
-    public Transform leftBound;   // גרור את האובייקט השמאלי
-    public Transform rightBound;  // גרור את האובייקט הימני
-    [HideInInspector] public bool hitSpiritBound = false;
-
-
     private float speed;
     private bool canMove = true;
     [SerializeField] private int direction = 1;
@@ -43,7 +36,7 @@ public class EnemyMovement : MonoBehaviour
 
         patrolState = new PatrolState(this);
         chaseState = new ChaseState(this);
-        //attackState = new AttackState(this);
+        attackState = new AttackState(this);
         idleState = new IdleState(this);
         dieState = new DieState(this);
         spiritIdleState = new SpiritIdleState(this);
@@ -53,7 +46,7 @@ public class EnemyMovement : MonoBehaviour
         {
             ChangeState(spiritIdleState);
         }
-        else if(enemyData.enemyType == EnemyType.Boss)
+        else if (enemyData.enemyType == EnemyType.Boss)
         {
             ChangeState(spiritIdleState);
         }
@@ -95,9 +88,6 @@ public class EnemyMovement : MonoBehaviour
 
     public void StopMoving() => canMove = false;
     public void ResumeMoving() => canMove = true;
-
-
-
     public void SetDirection(int newDirection)
     {
         if (newDirection != -1 && newDirection != 1) return;
@@ -105,22 +95,6 @@ public class EnemyMovement : MonoBehaviour
         direction = newDirection;
         Flip();
     }
-
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("SpiritBound") && GetEnemyDate().enemyType == EnemyType.Spirit)
-        {
-            hitSpiritBound = true;
-            StopMoving(); // עצירה מיידית
-            direction *= -1;
-            Flip();
-            ChangeState(spiritIdleState); 
-
-          Debug.Log("Spirit hit bound! Direction: " + direction);
-        }
-    }
-
 
     public void ChangeState(IEnemyState newState)
     {

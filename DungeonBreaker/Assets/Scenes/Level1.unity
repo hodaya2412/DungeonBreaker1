@@ -1386,6 +1386,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8937cbf00b921bf4d8a358c9b7eab436, type: 3}
+--- !u!50 &300710516 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 3794974364314083704, guid: 8937cbf00b921bf4d8a358c9b7eab436, type: 3}
+  m_PrefabInstance: {fileID: 6210517593691032156}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &344870354
 GameObject:
   m_ObjectHideFlags: 0
@@ -8080,6 +8085,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1776743326244773032, guid: 8937cbf00b921bf4d8a358c9b7eab436, type: 3}
+      propertyPath: rb
+      value: 
+      objectReference: {fileID: 300710516}
     - target: {fileID: 6305220007921409398, guid: 8937cbf00b921bf4d8a358c9b7eab436, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

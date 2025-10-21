@@ -6,7 +6,6 @@ public class SpiritIdleState : IEnemyState
 {
     private EnemyMovement enemy;
     private Transform player;
-    private float yTolerance =1f;
 
     public SpiritIdleState(EnemyMovement enemy)
     {
@@ -14,38 +13,24 @@ public class SpiritIdleState : IEnemyState
         player = enemy.GetPlayer();
     }
 
-    private bool IsPlayerOnSameHeight()
-    {
-        if (player == null) return false;
-        float deltaY = Mathf.Abs(player.position.y - enemy.transform.position.y);
-        return deltaY <= yTolerance;
-    }
-
     public override void Enter()
     {
+        Debug.Log($"<color=cyan>{enemy.name} entered SpiritIdleState</color>");
         enemy.StopMoving();
     }
 
     public override void Execute()
     {
+        Debug.Log($"<color=cyan>{enemy.name} executing SpiritIdleState</color>");
+
         if (player == null) player = enemy.FindPlayer();
         if (player == null) return;
 
-        if (!IsPlayerOnSameHeight()) return;
-        if (enemy.GetEnemyDate().enemyType == EnemyType.Boss)
-        {
-            if (player.position.x > enemy.transform.position.x)
-                enemy.SetDirection(-1);
-            else
-                enemy.SetDirection(1);
-        }
+        if (player.position.x > enemy.transform.position.x)
+            enemy.SetDirection(-1);
         else
-        {
-            if (player.position.x > enemy.transform.position.x)
-                enemy.SetDirection(1);
-            else
-                enemy.SetDirection(-1);
-        }
+            enemy.SetDirection(1);
+
         float dist = Vector2.Distance(enemy.transform.position, player.position);
         float attackRange = enemy.GetEnemyDate().attackRange;
         float detection = enemy.GetEnemyDate().detectionRange;
@@ -78,6 +63,7 @@ public class SpiritIdleState : IEnemyState
 
     public override void Exit()
     {
+        Debug.Log($"<color=cyan>{enemy.name} exited SpiritIdleState</color>");
         enemy.ResumeMoving();
     }
 }
@@ -86,10 +72,8 @@ public class SpiritIdleState : IEnemyState
 #region IdleState
 public class IdleState : IEnemyState
 {
-    
     private EnemyMovement enemy;
     private Transform player;
-    private float yTolerance = 0.5f;
 
     public IdleState(EnemyMovement enemy)
     {
@@ -97,24 +81,18 @@ public class IdleState : IEnemyState
         player = enemy.GetPlayer();
     }
 
-    private bool IsPlayerOnSameHeight()
-    {
-        if (player == null) return false;
-        float deltaY = Mathf.Abs(player.position.y - enemy.transform.position.y);
-        return deltaY <= yTolerance;
-    }
-
     public override void Enter()
     {
+        Debug.Log($"<color=yellow>{enemy.name} entered IdleState</color>");
         enemy.StopMoving();
     }
 
     public override void Execute()
     {
+        Debug.Log($"<color=yellow>{enemy.name} executing IdleState</color>");
+
         if (player == null) player = enemy.FindPlayer();
         if (player == null) return;
-
-        if (!IsPlayerOnSameHeight()) return;
 
         float dist = Vector2.Distance(enemy.transform.position, player.position);
         float detection = enemy.GetEnemyDate().detectionRange;
@@ -136,6 +114,7 @@ public class IdleState : IEnemyState
 
     public override void Exit()
     {
+        Debug.Log($"<color=yellow>{enemy.name} exited IdleState</color>");
         enemy.ResumeMoving();
     }
 }
@@ -146,35 +125,25 @@ public class PatrolState : IEnemyState
 {
     private EnemyMovement enemy;
     private Transform player;
-    private float yTolerance = 0.5f;
 
     public PatrolState(EnemyMovement enemy)
     {
-        Debug.Log("PatrolState: Execute running");
         this.enemy = enemy;
         player = enemy.GetPlayer();
     }
 
-    private bool IsPlayerOnSameHeight()
-    {
-        if (player == null) return false;
-        float deltaY = Mathf.Abs(player.position.y - enemy.transform.position.y);
-        return deltaY <= yTolerance;
-    }
-
     public override void Enter()
     {
+        Debug.Log($"<color=green>{enemy.name} entered PatrolState</color>");
         enemy.ResumeMoving();
     }
 
     public override void Execute()
     {
+        Debug.Log($"<color=green>{enemy.name} executing PatrolState</color>");
+
         if (player == null) player = enemy.FindPlayer();
         if (player == null) return;
-
-
-        if (!IsPlayerOnSameHeight()) return;
-
 
         float dist = Vector2.Distance(enemy.transform.position, player.position);
         float detection = enemy.GetEnemyDate().detectionRange;
@@ -192,11 +161,12 @@ public class PatrolState : IEnemyState
             enemy.ChangeState(enemy.chaseState);
             return;
         }
-
-        // תזוזת פטרול מתבצעת ב-EnemyMovement
     }
 
-    public override void Exit() { }
+    public override void Exit()
+    {
+        Debug.Log($"<color=green>{enemy.name} exited PatrolState</color>");
+    }
 }
 #endregion
 
@@ -205,7 +175,6 @@ public class ChaseState : IEnemyState
 {
     private EnemyMovement enemy;
     private Transform player;
-    private float yTolerance = 0.5f;
 
     public ChaseState(EnemyMovement enemy)
     {
@@ -213,29 +182,22 @@ public class ChaseState : IEnemyState
         player = enemy.GetPlayer();
     }
 
-    private bool IsPlayerOnSameHeight()
-    {
-        if (player == null) return false;
-        float deltaY = Mathf.Abs(player.position.y - enemy.transform.position.y);
-        return deltaY <= yTolerance;
-    }
-
     public override void Enter()
     {
+        Debug.Log($"<color=magenta>{enemy.name} entered ChaseState</color>");
         enemy.ResumeMoving();
     }
 
     public override void Execute()
     {
+        Debug.Log($"<color=magenta>{enemy.name} executing ChaseState</color>");
+
         if (player == null) player = enemy.FindPlayer();
         if (player == null)
         {
             enemy.ChangeState(enemy.patrolState);
             return;
         }
-
-
-        if (!IsPlayerOnSameHeight()) return;
 
         float dist = Vector2.Distance(enemy.transform.position, player.position);
         float detection = enemy.GetEnemyDate().detectionRange;
@@ -258,8 +220,10 @@ public class ChaseState : IEnemyState
         }
     }
 
-
-    public override void Exit() { }
+    public override void Exit()
+    {
+        Debug.Log($"<color=magenta>{enemy.name} exited ChaseState</color>");
+    }
 }
 #endregion
 
@@ -272,31 +236,25 @@ public class AttackState : IEnemyState
     private bool attackedThisEntry = false;
     private float attackTime = 0f;
     private float postAttackDelay = 1f;
-    private float yTolerance = 1f;
 
     public AttackState(EnemyMovement enemy)
     {
-        Debug.Log("AttackState: Execute running");
         this.enemy = enemy;
         attackComp = enemy.GetComponent<EnemyAttack>();
         player = enemy.GetPlayer();
     }
 
-    private bool IsPlayerOnSameHeight()
-    {
-        if (player == null) return false;
-        float deltaY = Mathf.Abs(player.position.y - enemy.transform.position.y);
-        return deltaY <= yTolerance;
-    }
-
     public override void Enter()
     {
+        Debug.Log($"<color=red>{enemy.name} entered AttackState</color>");
         attackedThisEntry = false;
         attackTime = 0f;
     }
 
     public override void Execute()
     {
+        Debug.Log($"<color=red>{enemy.name} executing AttackState</color>");
+
         if (player == null) player = enemy.FindPlayer();
         if (player == null)
         {
@@ -304,15 +262,12 @@ public class AttackState : IEnemyState
             return;
         }
 
-        if (!IsPlayerOnSameHeight()) return;
-
         float dist = Vector2.Distance(enemy.transform.position, player.position);
         float attackRange = enemy.GetEnemyDate().attackRange;
         float detection = enemy.GetEnemyDate().detectionRange;
 
         if (!attackedThisEntry && attackComp != null && attackComp.CanAttack() && dist <= attackRange)
         {
-            Debug.Log("AttackState: Triggering attack");
             attackComp.TriggerAttack();
             attackedThisEntry = true;
             attackTime = Time.time;
@@ -348,7 +303,10 @@ public class AttackState : IEnemyState
         }
     }
 
-    public override void Exit() { }
+    public override void Exit()
+    {
+        Debug.Log($"<color=red>{enemy.name} exited AttackState</color>");
+    }
 }
 #endregion
 
@@ -364,14 +322,21 @@ public class DieState : IEnemyState
 
     public override void Enter()
     {
+        Debug.Log($"<color=grey>{enemy.name} entered DieState</color>");
         enemy.StopMoving();
         var attack = enemy.GetEnemyAttack();
         if (attack != null) attack.enabled = false;
         enemy.GetAnimator()?.SetTrigger("IsDead");
     }
 
-    public override void Execute() { }
+    public override void Execute()
+    {
+        Debug.Log($"<color=grey>{enemy.name} executing DieState</color>");
+    }
 
-    public override void Exit() { }
+    public override void Exit()
+    {
+        Debug.Log($"<color=grey>{enemy.name} exited DieState</color>");
+    }
 }
 #endregion
