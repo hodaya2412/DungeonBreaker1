@@ -14,7 +14,7 @@ public class PlayerAttack : MonoBehaviour
 
     private InputActions inputActions;
     private bool isAttacking = false;
-    private AttackData currentAttackData;
+    [SerializeField] AttackData currentAttackData;
 
     private void Awake()
     {

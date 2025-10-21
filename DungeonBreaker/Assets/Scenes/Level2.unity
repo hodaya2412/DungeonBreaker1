@@ -5923,9 +5923,6 @@ MonoBehaviour:
   animator: {fileID: 1365639369}
   enemyData: {fileID: 11400000, guid: 246ef3a011f26374d94391106486d996, type: 2}
   defaultDirection: -1
-  leftBound: {fileID: 356046224}
-  rightBound: {fileID: 791637417}
-  hitSpiritBound: 0
   direction: 1
 --- !u!95 &1365639369 stripped
 Animator:
@@ -9769,9 +9766,6 @@ MonoBehaviour:
   animator: {fileID: 2140130763}
   enemyData: {fileID: 11400000, guid: 246ef3a011f26374d94391106486d996, type: 2}
   defaultDirection: -1
-  leftBound: {fileID: 1089448273}
-  rightBound: {fileID: 378594846}
-  hitSpiritBound: 0
   direction: 1
 --- !u!95 &2140130763 stripped
 Animator:

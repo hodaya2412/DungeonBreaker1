@@ -499,9 +499,6 @@ MonoBehaviour:
   animator: {fileID: 659618946}
   enemyData: {fileID: 11400000, guid: 149363e80d1ee6144b1aeac4cc1329a5, type: 2}
   defaultDirection: 1
-  leftBound: {fileID: 0}
-  rightBound: {fileID: 0}
-  hitSpiritBound: 0
   direction: 1
 --- !u!114 &659618941
 MonoBehaviour:
@@ -826,6 +823,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5066464331996546632, guid: 5aad63579a51d864f8f8117e329adfb3, type: 3}
+      propertyPath: currentAttackData
+      value: 
+      objectReference: {fileID: 11400000, guid: e739d38dfef3cd448ba004b4eff0c813, type: 2}
     - target: {fileID: 6985712788396924453, guid: 5aad63579a51d864f8f8117e329adfb3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 403.80002

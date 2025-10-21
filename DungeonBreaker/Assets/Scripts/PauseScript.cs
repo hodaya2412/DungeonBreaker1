@@ -5,45 +5,37 @@ using UnityEngine.SceneManagement;
 
 public class PauseScript : MonoBehaviour
 {
-    public GameObject pauseMenu; // גררי את PausePanel מהסצנה או השאירי ריק
-
+    public GameObject pauseMenu;
     private bool isPaused = false;
-
 
     void Awake()
     {
         if (pauseMenu != null)
         {
             DontDestroyOnLoad(pauseMenu);
-
-            // ודאי שהפאנל תמיד בראש
             Canvas canvas = pauseMenu.GetComponent<Canvas>();
             if (canvas != null)
-                canvas.sortingOrder = 999; // מביא את הפאנל קדימה
+                canvas.sortingOrder = 999;
         }
     }
 
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-    }
 
-    void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
+
     }
+    void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (EventSystem.current == null)
-        {
-            Debug.LogWarning("אין EventSystem פעיל בסצנה!");
-        }
+            Debug.LogWarning("[PauseScript] אין EventSystem פעיל בסצנה!");
 
         if (pauseMenu != null)
         {
             pauseMenu.SetActive(false);
-            pauseMenu.transform.SetAsLastSibling(); // מבטיח שהפאנל למעלה
+            pauseMenu.transform.SetAsLastSibling();
         }
 
         isPaused = false;
@@ -51,27 +43,23 @@ public class PauseScript : MonoBehaviour
     }
 
 
-    void Update()
-    {
-        if (Keyboard.current.escapeKey.wasPressedThisFrame)
-            TogglePause();
-    }
 
     public void TogglePause()
     {
         if (pauseMenu == null)
         {
-            Debug.LogWarning("PausePanel לא נמצא! ודאי שיש פאנל בשם PausePanel בסצנה");
+            Debug.LogWarning("[PauseScript] PausePanel לא נמצא!");
             return;
         }
 
         isPaused = !isPaused;
         pauseMenu.SetActive(isPaused);
-
         Time.timeScale = isPaused ? 0f : 1f;
 
         if (EventSystem.current != null)
             EventSystem.current.sendNavigationEvents = !isPaused;
+
+        Debug.Log($"[PauseScript] TogglePause: {isPaused}");
     }
 
     public void Resume()
@@ -84,11 +72,13 @@ public class PauseScript : MonoBehaviour
 
         if (EventSystem.current != null)
             EventSystem.current.sendNavigationEvents = true;
+
+        Debug.Log("[PauseScript] Resume");
     }
 
     public void QuitGame()
     {
-        Debug.Log("Quit Game");
+        Debug.Log("[PauseScript] QuitGame");
         Application.Quit();
     }
 }

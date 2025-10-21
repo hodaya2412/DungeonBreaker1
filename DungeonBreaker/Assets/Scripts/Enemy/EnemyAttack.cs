@@ -43,7 +43,6 @@ public class EnemyAttack : MonoBehaviour
         nextAttackTime = Time.time + attackCooldown;
     }
 
-    // זה יופעל אוטומטית כשהשחקנית נכנסת ל־Collider של האויב (טווח התקפה)
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("PlayerHitBox") && CanAttack())
