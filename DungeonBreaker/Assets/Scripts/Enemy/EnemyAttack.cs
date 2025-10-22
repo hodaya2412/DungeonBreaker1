@@ -41,8 +41,22 @@ public class EnemyAttack : MonoBehaviour
         animator?.SetTrigger("IsAttacking");
         Events.OnEnemyHitPlayer?.Invoke(damage);
         nextAttackTime = Time.time + attackCooldown;
-        Debug.Log("⚔️ Enemy triggered attack effect!");
-       
+        if (enemyData != null && enemyData.enemyType == EnemyType.Boss && enemyData.hasSpecialAttack)
+        {
+            if (enemyData.specialAttackEffectPrefab != null && player != null)
+            {
+                
+                GameObject effect = Instantiate(
+                    enemyData.specialAttackEffectPrefab,
+                    player.position,
+                    Quaternion.identity
+                );
+
+                
+                Destroy(effect, 2f);
+            }
+        }
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
