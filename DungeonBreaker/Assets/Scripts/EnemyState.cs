@@ -268,6 +268,7 @@ public class AttackState : IEnemyState
 
         if (!attackedThisEntry && attackComp != null && attackComp.CanAttack() && dist <= attackRange)
         {
+            Debug.Log($"<color=red>{enemy.name} ATTACK</color>");
             attackComp.TriggerAttack();
             attackedThisEntry = true;
             attackTime = Time.time;

@@ -12,11 +12,6 @@ public class EnemyDate : ScriptableObject
     public float attackRange = 1f;
     public float hitStunTime = 0.3f;
     public float attackCooldown = 2f;
-
-    [Header("Special Attack")]
-    public bool hasSpecialAttack = false;
-    public int specialAttackDamage = 2;
-    public float specialAttackCooldown = 10f;
     public GameObject specialAttackEffectPrefab;
 }
 public enum EnemyType { Normal, Spirit, Boss }

@@ -14,7 +14,7 @@ public class Events
 
     // 🆕 חדשים:
     public static Action OnAllEnemiesDefeated;
-    public static Action OnGameOver;          // ✅ כשהשחקן מת
+    public static Action OnGameOver;          
     public static Action OnRetryPressed;
 
 }

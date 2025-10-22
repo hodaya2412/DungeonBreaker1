@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
             yield return null;
 
         Debug.Log("[GameManager] All enemies defeated!");
-        Events.OnAllEnemiesDefeated?.Invoke(); // ✅ זה מה שגורם למכונת המצבים לדעת
+        Events.OnAllEnemiesDefeated?.Invoke(); 
 
         if (playerAttack != null)
         {

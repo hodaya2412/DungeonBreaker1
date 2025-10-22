@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
@@ -8,13 +8,14 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private float deathAnimationDuration = 2f;
     [SerializeField] private PlayerHealthUI healthUI;
     [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private ShieldController shieldController; // רפרנס למגן
 
     private int currentHealth;
     public bool isDead = false;
 
     private void Awake()
     {
-        ResetHealth(); 
+        ResetHealth();
     }
 
     private void OnEnable()
@@ -27,10 +28,16 @@ public class PlayerHealth : MonoBehaviour
         Events.OnEnemyHitPlayer -= TakeDamage;
     }
 
-
     public void TakeDamage(int damage)
     {
         if (isDead) return;
+
+        // בדיקה אם המגן פעיל
+        if (shieldController != null && shieldController.IsShieldActive())
+        {
+            Debug.Log("💠 Damage blocked by shield!");
+            return;
+        }
 
         currentHealth -= damage;
         Events.OnHealthChanged?.Invoke(currentHealth, maxHealth);
@@ -49,14 +56,13 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+
     private void Die()
     {
         if (isDead) return;
 
         isDead = true;
-
         animator?.SetTrigger("IsDead");
-
         StartCoroutine(StopGameAfterDeath(deathAnimationDuration));
     }
 
@@ -81,7 +87,6 @@ public class PlayerHealth : MonoBehaviour
             healthUI.AddHealth(amount);
     }
 
-   
     public void ResetHealth()
     {
         currentHealth = maxHealth;

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d158fe77d950f5418944040cec305f5, type: 3}
   m_Name: BasicEnemyData
   m_EditorClassIdentifier: 
+  enemyType: 0
   enemyName: Goblin_Thief
   speed: 2
   health: 3
@@ -19,4 +20,5 @@ MonoBehaviour:
   detectionRange: 5
   attackRange: 1
   hitStunTime: 0.3
-  attackCooldown: 5
+  attackCooldown: 2
+  specialAttackEffectPrefab: {fileID: 0}

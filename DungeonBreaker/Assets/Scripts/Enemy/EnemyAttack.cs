@@ -39,20 +39,21 @@ public class EnemyAttack : MonoBehaviour
         if (!CanAttack()) return;
 
         animator?.SetTrigger("IsAttacking");
-        Events.OnEnemyHitPlayer?.Invoke(damage);
         nextAttackTime = Time.time + attackCooldown;
-        if (enemyData != null && enemyData.enemyType == EnemyType.Boss && enemyData.hasSpecialAttack)
+        Events.OnEnemyHitPlayer?.Invoke(damage);
+
+        if (enemyData != null && enemyData.enemyType == EnemyType.Boss)
         {
             if (enemyData.specialAttackEffectPrefab != null && player != null)
             {
-                
+
                 GameObject effect = Instantiate(
                     enemyData.specialAttackEffectPrefab,
                     player.position,
                     Quaternion.identity
                 );
 
-                
+
                 Destroy(effect, 2f);
             }
         }
@@ -67,7 +68,7 @@ public class EnemyAttack : MonoBehaviour
         }
     }
 
-    // אם רוצים להמשיך להפעיל התקפה גם כשהשחקנית נשארת בטווח:
+    //אם רוצים להמשיך להפעיל התקפה גם כשהשחקנית נשארת בטווח:
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag("PlayerHitBox") && CanAttack())

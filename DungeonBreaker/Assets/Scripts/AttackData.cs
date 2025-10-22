@@ -11,10 +11,20 @@ public class AttackData : ScriptableObject
     public float attackDuration = 0.3f;
 
     [Header("Visual Effects")]
-    public GameObject attackEffectPrefab;       // האפקט שמופעל בזמן ההתקפה
-    public GameObject powerUpGrantedEffect;     // אפקט שמופיע כשהשחקן מקבל את ההתקפה
+    public GameObject attackEffectPrefab;       // אפקט שמופעל בזמן ההתקפה
+    public GameObject powerUpGrantedEffect;     // אפקט שמופיע כשהשחקן מקבל PowerUp
 
-   
+    [Header("Shield Settings")]
+    [Tooltip("האם השחקן יכול להפעיל מגן בשלב זה")]
+    public bool hasShield = false;
+
+    [Tooltip("אפקט של המגן שמופיע מעל השחקן בעת לחיצה על Q")]
+    public GameObject shieldEffectPrefab;
+
+    [Tooltip("כמה זמן המגן נשאר פעיל בשניות")]
+    public float shieldDuration = 3f;
+
+    [Tooltip("באיזה שלב המגן פעיל")]
+    public int shieldActiveStage = 3;
+
 }
-
-
