@@ -1,56 +1,38 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PauseScript : MonoBehaviour
 {
-    public GameObject pauseMenu;
-    private bool isPaused = false;
+    [Header("Pause Panel")]
+    public GameObject pauseMenu; // גררי את הפאנל כאן ב-Inspector
 
-    void Awake()
-    {
-        if (pauseMenu != null)
-        {
-            DontDestroyOnLoad(pauseMenu);
-            Canvas canvas = pauseMenu.GetComponent<Canvas>();
-            if (canvas != null)
-                canvas.sortingOrder = 999;
-        }
-    }
+    private bool isPaused = false;
 
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-
-
     }
-    void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (EventSystem.current == null)
-            Debug.LogWarning("[PauseScript] אין EventSystem פעיל בסצנה!");
-
+        // תמיד סגור את הפאנל בסצנה חדשה
         if (pauseMenu != null)
-        {
             pauseMenu.SetActive(false);
-            pauseMenu.transform.SetAsLastSibling();
-        }
 
         isPaused = false;
         Time.timeScale = 1f;
     }
 
-
-
     public void TogglePause()
     {
-        if (pauseMenu == null)
-        {
-            Debug.LogWarning("[PauseScript] PausePanel לא נמצא!");
-            return;
-        }
+        if (pauseMenu == null) return;
 
         isPaused = !isPaused;
         pauseMenu.SetActive(isPaused);
@@ -58,8 +40,6 @@ public class PauseScript : MonoBehaviour
 
         if (EventSystem.current != null)
             EventSystem.current.sendNavigationEvents = !isPaused;
-
-        Debug.Log($"[PauseScript] TogglePause: {isPaused}");
     }
 
     public void Resume()
@@ -72,13 +52,17 @@ public class PauseScript : MonoBehaviour
 
         if (EventSystem.current != null)
             EventSystem.current.sendNavigationEvents = true;
-
-        Debug.Log("[PauseScript] Resume");
     }
 
-    public void QuitGame()
+    public void RestartLevel()
     {
-        Debug.Log("[PauseScript] QuitGame");
-        Application.Quit();
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void ExitToMenu(string menuSceneName)
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(menuSceneName);
     }
 }
