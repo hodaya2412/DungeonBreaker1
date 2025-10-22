@@ -6,6 +6,7 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private EnemyDate enemyData;
     [SerializeField] private int defaultDirection = 1;
+    [SerializeField] private bool facingRight = true;
 
     private float speed;
     private bool canMove = true;
@@ -75,6 +76,7 @@ public class EnemyMovement : MonoBehaviour
         Vector3 localScale = transform.localScale;
         localScale.x = direction * defaultDirection;
         transform.localScale = localScale;
+        facingRight = direction > 0;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -125,4 +127,9 @@ public class EnemyMovement : MonoBehaviour
             ChangeState(dieState);
         }
     }
+    public bool IsFacingRight()
+    {
+        return facingRight; // נניח שיש לך משתנה bool facingRight
+    }
+
 }

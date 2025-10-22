@@ -41,6 +41,8 @@ public class EnemyAttack : MonoBehaviour
         animator?.SetTrigger("IsAttacking");
         Events.OnEnemyHitPlayer?.Invoke(damage);
         nextAttackTime = Time.time + attackCooldown;
+        Debug.Log("⚔️ Enemy triggered attack effect!");
+       
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

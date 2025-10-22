@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
@@ -28,6 +28,8 @@ public class EnemyHealth : MonoBehaviour
 
     private void TakeHit(GameObject enemy, int damage)
     {
+        Debug.Log($"ğŸ’¥ TakeHit called for {gameObject.name} (target: {enemy.name})");
+
         if (enemy != gameObject || isDead) return;
 
         Debug.Log("TakeHit called!");
@@ -67,7 +69,7 @@ public class EnemyHealth : MonoBehaviour
         if (attack != null)
             attack.enabled = false;
 
-        // äñø àú äùåøä: animator.SetTrigger("IsDead");
+        // ×”×¡×¨ ××ª ×”×©×•×¨×”: animator.SetTrigger("IsDead");
 
         Events.OnEnemyDeath?.Invoke(gameObject);
 

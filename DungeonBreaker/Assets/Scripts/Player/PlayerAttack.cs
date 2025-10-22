@@ -83,6 +83,8 @@ public class PlayerAttack : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log($"⚔️ Player triggered with {other.name}");
+
         if (!isAttacking || currentAttackData == null) return;
         if (!other.CompareTag("Enemy")) return;
 
