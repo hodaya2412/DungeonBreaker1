@@ -70,11 +70,9 @@ public class PlayerHealth : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(duration);
 
-        if (gameOverPanel != null)
-            gameOverPanel.SetActive(true);
-
-        Time.timeScale = 0f;
+        GameManager.Instance?.ShowGameOver();
     }
+
 
     public void Heal(int amount)
     {

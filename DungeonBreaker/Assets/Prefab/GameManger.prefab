@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 502143665177927615}
   - component: {fileID: 8449283211691850888}
-  - component: {fileID: 7248422156596680216}
   m_Layer: 0
   m_Name: GameManger
   m_TagString: Untagged
@@ -46,19 +45,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameOverPanel: {fileID: 0}
-  stage1Attack: {fileID: 11400000, guid: a4567b4755a6a744787cd3fa79376cfc, type: 2}
-  stage2Attack: {fileID: 11400000, guid: 1ee1e5a9ed9a8ef439e73bad8e6e1615, type: 2}
-  stage3Attack: {fileID: 11400000, guid: e739d38dfef3cd448ba004b4eff0c813, type: 2}
---- !u!114 &7248422156596680216
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2563226567520893907}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c205bf3d61e493f45a4887fa11812aec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pauseMenu: {fileID: 0}

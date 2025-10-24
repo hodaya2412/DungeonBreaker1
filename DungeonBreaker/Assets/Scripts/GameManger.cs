@@ -8,8 +8,9 @@ public class GameManager : MonoBehaviour
 
     [Header("Player & UI")]
     private PlayerAttack playerAttack;
-    [SerializeField] private GameObject gameOverPanel;
 
+    [Header("Managers")]
+    [SerializeField] private GameStateManager gameStateManager;
 
     private void Awake()
     {
@@ -17,10 +18,6 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-
-            if (gameOverPanel != null)
-                gameOverPanel.SetActive(false);
-
             Time.timeScale = 1f;
         }
         else
@@ -47,15 +44,23 @@ public class GameManager : MonoBehaviour
         if (playerObj != null)
             playerAttack = playerObj.GetComponent<PlayerAttack>();
 
+        // נאתחל את GameStateManager מחדש אם הוא לא מחובר
+        if (gameStateManager == null)
+        {
+            GameObject managerObj = GameObject.Find("GameStateManager");
+            if (managerObj != null)
+                gameStateManager = managerObj.GetComponent<GameStateManager>();
+        }
+
         SetAttackDataByScene();
     }
-
 
     private void SetAttackDataByScene()
     {
         if (playerAttack == null) return;
 
         string sceneName = SceneManager.GetActiveScene().name;
+        // כאן אפשר להוסיף לוגיקה לפי שם הסצנה
     }
 
     private void OnEnemyDeath(GameObject enemy)
@@ -71,23 +76,19 @@ public class GameManager : MonoBehaviour
             yield return null;
 
         Debug.Log("[GameManager] All enemies defeated!");
-        Events.OnAllEnemiesDefeated?.Invoke(); 
+        Events.OnAllEnemiesDefeated?.Invoke();
 
         if (playerAttack != null)
         {
             playerAttack.ShowPowerUpPanel();
             playerAttack.ActivatePowerUp();
         }
+
+        gameStateManager?.ChangeState(GameState.LevelComplete);
     }
-
-
 
     public void ShowGameOver()
     {
-        if (gameOverPanel != null)
-        {
-            Time.timeScale = 0f;
-            gameOverPanel.SetActive(true);
-        }
+        gameStateManager?.ChangeState(GameState.GameOver);
     }
 }

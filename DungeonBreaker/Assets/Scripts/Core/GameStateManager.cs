@@ -1,41 +1,76 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 
+public enum GameState
+{
+    MainMenu,
+    Playing,
+    Paused,
+    LevelComplete,
+    GameOver
+}
 public class GameStateManager : MonoBehaviour
 {
-    List<GameState> states = new();
-    [SerializeField] GameState currentState;
-    [SerializeField] GameState defaultState;
 
-    void Awake()
+    [Header("Scene Settings")]
+    public bool isMainMenuScene = false;
+
+    [Header("UI Panels")]
+    public GameObject mainMenuPanel; // ← השאירי אותו public כדי שיופיע תמיד
+    public GameObject pausePanel;
+    public GameObject levelCompletePanel;
+    public GameObject gameOverPanel;
+
+    private GameState currentState;
+
+    private void Awake()
     {
-        states.AddRange(GetComponentsInChildren<GameState>());
 
-        Events.OnStateEnter += StateEnter;
-        Events.OnGetCurrentState += GetCurrentState;
-        SceneManager.sceneLoaded += AnnounceStateOnSceneLoad;
-
-        if (currentState == null)
-            currentState = defaultState;
-        Events.OnStateEnter?.Invoke(currentState);
+        // אם זו לא סצנת תפריט ראשי — ננטרל את הפאנל
+        if (!isMainMenuScene && mainMenuPanel != null)
+        {
+            mainMenuPanel.SetActive(false);
+        }
     }
 
-    private void AnnounceStateOnSceneLoad(Scene arg0, LoadSceneMode arg1)
+    public void ChangeState(GameState newState)
     {
-        if (currentState == null)
-            Events.OnStateEnter?.Invoke(defaultState);
-        else
-            Events.OnStateEnter?.Invoke(currentState);
+        currentState = newState;
+        Debug.Log($"[GameStateManager] State changed to {currentState}");
+
+        mainMenuPanel?.SetActive(false);
+        pausePanel?.SetActive(false);
+        levelCompletePanel?.SetActive(false);
+        gameOverPanel?.SetActive(false);
+
+        switch (currentState)
+        {
+            case GameState.MainMenu:
+                if (isMainMenuScene)
+                {
+                    mainMenuPanel?.SetActive(true);
+                    Time.timeScale = 0f;
+                }
+                break;
+
+            case GameState.Playing:
+                Time.timeScale = 1f;
+                break;
+
+            case GameState.Paused:
+                pausePanel?.SetActive(true);
+                Time.timeScale = 0f;
+                break;
+
+            case GameState.LevelComplete:
+                levelCompletePanel?.SetActive(true);
+                break;
+
+            case GameState.GameOver:
+                gameOverPanel?.SetActive(true);
+                Time.timeScale = 0f;
+                break;
+        }
     }
 
-    private GameState GetCurrentState()
-    {
-        return currentState;
-    }
-
-    private void StateEnter(GameState state)
-    {
-        currentState = state;
-    }
+    public GameState GetState() => currentState;
 }
