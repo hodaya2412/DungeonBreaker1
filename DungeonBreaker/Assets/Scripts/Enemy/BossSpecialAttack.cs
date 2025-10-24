@@ -1,4 +1,4 @@
-using System.Collections;
+ן»¿using System.Collections;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -47,21 +47,16 @@ public class BossSpecialAttack : MonoBehaviour
     {
         isRunning = true;
 
-        // עצירת תנועה של הבוס (אם קיים)
+        
         if (bossMovement != null)
             bossMovement.StopMoving();
 
-        // הפעלת אנימציה של הבוס
+  
         if (bossAnimator != null && !string.IsNullOrEmpty(animatorTriggerName))
             bossAnimator.SetTrigger(animatorTriggerName);
 
-        // אפשר להוסיף כאן המתנה קצרה של כמה שניות לפני יצירת האויבים
-        // yield return new WaitForSecondsRealtime(1f); // אם רוצים אנימציה קצרה
-
-        // יצירת אויבים
         SpawnEnemies();
 
-        // חזרה לתנועה של הבוס
         if (bossMovement != null)
             bossMovement.ResumeMoving();
 

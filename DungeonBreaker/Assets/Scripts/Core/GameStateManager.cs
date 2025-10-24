@@ -8,31 +8,37 @@ public enum GameState
     LevelComplete,
     GameOver
 }
+
 public class GameStateManager : MonoBehaviour
 {
-
     [Header("Scene Settings")]
     public bool isMainMenuScene = false;
 
     [Header("UI Panels")]
-    public GameObject mainMenuPanel; // ← השאירי אותו public כדי שיופיע תמיד
+    public GameObject mainMenuPanel;
     public GameObject pausePanel;
     public GameObject levelCompletePanel;
     public GameObject gameOverPanel;
 
     private GameState currentState;
 
-    private void Awake()
+    private void OnEnable()
     {
-
-        // אם זו לא סצנת תפריט ראשי — ננטרל את הפאנל
-        if (!isMainMenuScene && mainMenuPanel != null)
-        {
-            mainMenuPanel.SetActive(false);
-        }
+        Events.OnGameStateChanged += ChangeState;
     }
 
-    public void ChangeState(GameState newState)
+    private void OnDisable()
+    {
+        Events.OnGameStateChanged -= ChangeState;
+    }
+
+    private void Awake()
+    {
+        if (!isMainMenuScene && mainMenuPanel != null)
+            mainMenuPanel.SetActive(false);
+    }
+
+    private void ChangeState(GameState newState)
     {
         currentState = newState;
         Debug.Log($"[GameStateManager] State changed to {currentState}");
@@ -74,3 +80,4 @@ public class GameStateManager : MonoBehaviour
 
     public GameState GetState() => currentState;
 }
+

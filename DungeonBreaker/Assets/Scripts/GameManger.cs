@@ -9,9 +9,6 @@ public class GameManager : MonoBehaviour
     [Header("Player & UI")]
     private PlayerAttack playerAttack;
 
-    [Header("Managers")]
-    [SerializeField] private GameStateManager gameStateManager;
-
     private void Awake()
     {
         if (Instance == null)
@@ -44,23 +41,25 @@ public class GameManager : MonoBehaviour
         if (playerObj != null)
             playerAttack = playerObj.GetComponent<PlayerAttack>();
 
-        // נאתחל את GameStateManager מחדש אם הוא לא מחובר
-        if (gameStateManager == null)
-        {
-            GameObject managerObj = GameObject.Find("GameStateManager");
-            if (managerObj != null)
-                gameStateManager = managerObj.GetComponent<GameStateManager>();
-        }
-
         SetAttackDataByScene();
+
+        // נבדוק אם זו הסצנה של התפריט הראשי
+        if (scene.name == "StartScene") // ודאי ששם הסצנה תואם בדיוק ל-Build Settings
+        {
+            Events.OnGameStateChanged?.Invoke(GameState.MainMenu);
+        }
+        else
+        {
+            Events.OnGameStateChanged?.Invoke(GameState.Playing);
+        }
     }
+
 
     private void SetAttackDataByScene()
     {
         if (playerAttack == null) return;
-
         string sceneName = SceneManager.GetActiveScene().name;
-        // כאן אפשר להוסיף לוגיקה לפי שם הסצנה
+        // לוגיקה לפי שם סצנה אם תרצי
     }
 
     private void OnEnemyDeath(GameObject enemy)
@@ -84,11 +83,11 @@ public class GameManager : MonoBehaviour
             playerAttack.ActivatePowerUp();
         }
 
-        gameStateManager?.ChangeState(GameState.LevelComplete);
+        Events.OnGameStateChanged?.Invoke(GameState.LevelComplete);
     }
 
     public void ShowGameOver()
     {
-        gameStateManager?.ChangeState(GameState.GameOver);
+        Events.OnGameStateChanged?.Invoke(GameState.GameOver);
     }
 }

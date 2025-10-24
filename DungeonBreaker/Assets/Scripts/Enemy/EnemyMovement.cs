@@ -6,7 +6,7 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private EnemyDate enemyData;
     [SerializeField] private int defaultDirection = 1;
-    
+
 
     private float speed;
     private bool canMove = true;
@@ -24,10 +24,22 @@ public class EnemyMovement : MonoBehaviour
 
     private Transform player;
 
-    private void OnEnable() => Events.OnEnemyDeath += OnAnyEnemyDeath;
-    private void OnDisable() => Events.OnEnemyDeath -= OnAnyEnemyDeath;
+    private void OnEnable() { 
+        Events.OnEnemyDeath += OnAnyEnemyDeath;
+        Events.OnRequestStateChange += HandleStateChange;
+        Events.OnRequestMove += HandleMoveRequest;
+        Events.OnRequestDirection += HandleDirectionRequest;
+    }
 
-    void Start()
+    private void OnDisable()
+    {
+        Events.OnEnemyDeath -= OnAnyEnemyDeath;
+        Events.OnRequestStateChange -= HandleStateChange;
+        Events.OnRequestMove -= HandleMoveRequest;
+        Events.OnRequestDirection -= HandleDirectionRequest;
+    }
+
+        void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         if (enemyData == null) enemyData = ScriptableObject.CreateInstance<EnemyDate>();
@@ -127,6 +139,25 @@ public class EnemyMovement : MonoBehaviour
             ChangeState(dieState);
         }
     }
-    
+
+
+    private void HandleStateChange(EnemyMovement enemy, IEnemyState newState)
+    {
+        if (enemy != this) return;
+        ChangeState(newState);
+    }
+
+    private void HandleMoveRequest(EnemyMovement enemy, bool canMove)
+    {
+        if (enemy != this) return;
+        this.canMove = canMove;
+    }
+
+    private void HandleDirectionRequest(EnemyMovement enemy, int newDirection)
+    {
+        if (enemy != this) return;
+        SetDirection(newDirection);
+    }
+
 
 }

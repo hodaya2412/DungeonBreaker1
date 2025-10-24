@@ -11,8 +11,8 @@ public class AttackData : ScriptableObject
     public float attackDuration = 0.3f;
 
     [Header("Visual Effects")]
-    public GameObject attackEffectPrefab;       // אפקט שמופעל בזמן ההתקפה
-    public GameObject powerUpGrantedEffect;     // אפקט שמופיע כשהשחקן מקבל PowerUp
+    public GameObject attackEffectPrefab;       
+    public GameObject powerUpGrantedEffect;     
 
     [Header("Shield Settings")]
     [Tooltip("האם השחקן יכול להפעיל מגן בשלב זה")]

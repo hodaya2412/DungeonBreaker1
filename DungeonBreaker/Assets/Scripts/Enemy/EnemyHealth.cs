@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
@@ -9,16 +10,14 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] EnemyDate enemyData;
 
     private int currentHealth;
-    private EnemyMovement movement;
-    private EnemyAttack attack;
+   
     private bool isDead = false;
 
     private void OnEnable()
     {
         currentHealth = enemyData.health;
         Events.OnPlayerAttack += TakeHit;
-        movement = GetComponent<EnemyMovement>();
-        attack = GetComponent<EnemyAttack>();
+      
     }
 
     private void OnDisable()
@@ -41,22 +40,24 @@ public class EnemyHealth : MonoBehaviour
         if (animator != null)
             animator.SetTrigger("Hurt");
 
-        if (movement != null)
-            StartCoroutine(HitStun());
+        Events.OnRequestMove?.Invoke(GetComponent<EnemyMovement>(), false);
+
 
         if (currentHealth <= 0)
         {
             Die();
         }
+        if (!isDead)
+            StartCoroutine(HitStun());
+
     }
 
     private IEnumerator HitStun()
     {
-        if (movement != null)
-            movement.StopMoving();
+        Events.OnRequestMove?.Invoke(GetComponent<EnemyMovement>(), false);
         yield return new WaitForSeconds(hitStunTime);
-        if (!isDead && movement != null)
-            movement.ResumeMoving();
+        Events.OnRequestMove?.Invoke(GetComponent<EnemyMovement>(), true);
+
     }
 
     private void Die()
@@ -64,12 +65,11 @@ public class EnemyHealth : MonoBehaviour
         if (isDead) return;
         isDead = true;
 
-        if (movement != null)
-            movement.StopMoving();
-        if (attack != null)
-            attack.enabled = false;
+        Events.OnRequestMove?.Invoke(GetComponent<EnemyMovement>(), false);
+        Events.OnRequestAttackToggle?.Invoke(GetComponent<EnemyMovement>(), false);
 
-        // הסר את השורה: animator.SetTrigger("IsDead");
+
+
 
         Events.OnEnemyDeath?.Invoke(gameObject);
 

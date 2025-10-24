@@ -8,7 +8,7 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private float deathAnimationDuration = 2f;
     [SerializeField] private PlayerHealthUI healthUI;
     [SerializeField] private GameObject gameOverPanel;
-    [SerializeField] private ShieldController shieldController; // רפרנס למגן
+    [SerializeField] private ShieldController shieldController;
 
     private int currentHealth;
     public bool isDead = false;
@@ -21,18 +21,28 @@ public class PlayerHealth : MonoBehaviour
     private void OnEnable()
     {
         Events.OnEnemyHitPlayer += TakeDamage;
+        Events.OnPlayerHeal += OnHeal; // 🩹 הרשמה לאירוע ריפוי
     }
 
     private void OnDisable()
     {
         Events.OnEnemyHitPlayer -= TakeDamage;
+        Events.OnPlayerHeal -= OnHeal; // 🩹 ביטול הרשמה
+    }
+
+    private void OnHeal(GameObject player, int amount)
+    {
+        // נוודא שהאירוע שייך לשחקן הזה (לא לשחקן אחר במשחק מרובה)
+        if (player == gameObject)
+        {
+            Heal(amount);
+        }
     }
 
     public void TakeDamage(int damage)
     {
         if (isDead) return;
 
-        // בדיקה אם המגן פעיל
         if (shieldController != null && shieldController.IsShieldActive())
         {
             Debug.Log("💠 Damage blocked by shield!");
@@ -43,8 +53,7 @@ public class PlayerHealth : MonoBehaviour
         Events.OnHealthChanged?.Invoke(currentHealth, maxHealth);
         Debug.Log($"Player took {damage} damage. Current health: {currentHealth}");
 
-        if (healthUI != null)
-            healthUI.TakeDamage(damage);
+        healthUI?.TakeDamage(damage);
 
         if (currentHealth <= 0)
         {
@@ -55,7 +64,6 @@ public class PlayerHealth : MonoBehaviour
             animator?.SetTrigger("IsHit");
         }
     }
-
 
     private void Die()
     {
@@ -69,10 +77,8 @@ public class PlayerHealth : MonoBehaviour
     private IEnumerator StopGameAfterDeath(float duration)
     {
         yield return new WaitForSecondsRealtime(duration);
-
         GameManager.Instance?.ShowGameOver();
     }
-
 
     public void Heal(int amount)
     {
@@ -81,8 +87,7 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
         Debug.Log("Player healed! Current HP: " + currentHealth);
         Events.OnHealthChanged?.Invoke(currentHealth, maxHealth);
-        if (healthUI != null)
-            healthUI.AddHealth(amount);
+        healthUI?.AddHealth(amount);
     }
 
     public void ResetHealth()

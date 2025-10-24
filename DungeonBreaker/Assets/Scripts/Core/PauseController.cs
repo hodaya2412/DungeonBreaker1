@@ -1,11 +1,10 @@
-using UnityEngine;
+ן»¿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PauseController : MonoBehaviour
 {
-    [SerializeField] private GameObject pausePanel; // גררי את הפאנל של הפאוז לכאן
-    private bool isPaused = false;
     private InputActions actionInput;
+    private bool isPaused = false;
 
     private void Awake()
     {
@@ -27,7 +26,11 @@ public class PauseController : MonoBehaviour
     private void OnPausePerformed(InputAction.CallbackContext context)
     {
         isPaused = !isPaused;
-        pausePanel.SetActive(isPaused);
-        Time.timeScale = isPaused ? 0f : 1f;
+
+        
+        if (isPaused)
+            Events.OnGameStateChanged?.Invoke(GameState.Paused);
+        else
+            Events.OnGameStateChanged?.Invoke(GameState.Playing);
     }
 }
