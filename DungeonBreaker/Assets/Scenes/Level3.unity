@@ -847,7 +847,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3000ce989096c644b923ecbb358c8ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 659618946}
   hitStunTime: 0.3
   healthUI: {fileID: 659618941}
   enemyData: {fileID: 11400000, guid: 149363e80d1ee6144b1aeac4cc1329a5, type: 2}
