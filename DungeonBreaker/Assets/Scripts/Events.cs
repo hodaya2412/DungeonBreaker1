@@ -5,8 +5,10 @@ public class Events
 {
     public static Action<GameObject, int> OnPlayerAttack;
     public static Action<GameObject> OnEnemyDeath;
+    public static Action<GameObject, int, int> OnEnemyHealthChanged; 
     public static Action<int, int> OnHealthChanged;
     public static Action<int> OnEnemyHitPlayer;
+
 
   
     public static Action OnAllEnemiesDefeated;

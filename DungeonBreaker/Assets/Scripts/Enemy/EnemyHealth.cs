@@ -33,9 +33,9 @@ public class EnemyHealth : MonoBehaviour
 
         Debug.Log("TakeHit called!");
         currentHealth -= damage;
+        Events.OnEnemyHealthChanged?.Invoke(gameObject, currentHealth, enemyData.health);
 
-        if (healthUI != null)
-            healthUI.TakeDamage(damage);
+
 
         if (animator != null)
             animator.SetTrigger("Hurt");

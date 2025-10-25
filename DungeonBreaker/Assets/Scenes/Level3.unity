@@ -1885,8 +1885,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0000013113, y: 3.11}
-  m_SizeDelta: {x: 160, y: 20}
+  m_AnchoredPosition: {x: -0.000013709, y: 2.77}
+  m_SizeDelta: {x: 110.0161, y: 17.8915}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1315623681
 MonoBehaviour:
@@ -2087,6 +2087,22 @@ PrefabInstance:
     - target: {fileID: 6985712788396924453, guid: 5aad63579a51d864f8f8117e329adfb3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7345550925717508402, guid: 5aad63579a51d864f8f8117e329adfb3, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 174.99
+      objectReference: {fileID: 0}
+    - target: {fileID: 7345550925717508402, guid: 5aad63579a51d864f8f8117e329adfb3, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 40.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 7345550925717508402, guid: 5aad63579a51d864f8f8117e329adfb3, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7345550925717508402, guid: 5aad63579a51d864f8f8117e329adfb3, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 345
       objectReference: {fileID: 0}
     - target: {fileID: 7697625123863799742, guid: 5aad63579a51d864f8f8117e329adfb3, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2446,6 +2462,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 936836200593932331, guid: ffff47673bd29544387aa471f1907eb5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2030454803969795849, guid: ffff47673bd29544387aa471f1907eb5, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -2505,6 +2525,10 @@ PrefabInstance:
     - target: {fileID: 3840633871027986419, guid: ffff47673bd29544387aa471f1907eb5, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: UIButtonActions, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3951663382775953176, guid: ffff47673bd29544387aa471f1907eb5, type: 3}
+      propertyPath: m_text
+      value: You Win !!!
       objectReference: {fileID: 0}
     - target: {fileID: 4284044573814353133, guid: ffff47673bd29544387aa471f1907eb5, type: 3}
       propertyPath: m_IsActive
