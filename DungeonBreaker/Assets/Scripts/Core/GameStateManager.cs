@@ -11,80 +11,52 @@ public enum GameState
 
 public class GameStateManager : MonoBehaviour
 {
-    [Header("Scene Settings")]
-    public bool isMainMenuScene = false;
-
-    [Header("UI Panels")]
-    public GameObject mainMenuPanel;
-    public GameObject pausePanel;
-    public GameObject levelCompletePanel;
-    public GameObject gameOverPanel;
-
-    private float menuTimeScale = 0f;       
-    private float playingTimeScale = 1f;    
-    private float pausedTimeScale = 0f;     
-    private float gameOverTimeScale = 0f;   
-    
-
+    public static GameStateManager Instance;
 
     private GameState currentState;
+    private const float TIME_STOPPED = 0f;
+    private const float TIME_NORMAL = 1f;
+
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        currentState = GameState.MainMenu;
+        Time.timeScale = TIME_STOPPED; 
+    }
 
     private void OnEnable()
     {
-        Events.OnGameStateChanged += ChangeState;
+        Events.OnPlayerDied += OnPlayerDied;
+        Events.OnLevelCompleted += OnLevelCompleted;
     }
 
     private void OnDisable()
     {
-        Events.OnGameStateChanged -= ChangeState;
+        Events.OnPlayerDied -= OnPlayerDied;
+        Events.OnLevelCompleted -= OnLevelCompleted;
     }
 
-    private void Awake()
+    public void SetState(GameState newState, bool forceInvoke = false)
     {
-        if (!isMainMenuScene && mainMenuPanel != null)
-            mainMenuPanel.SetActive(false);
-    }
+        if (!forceInvoke && newState == currentState) return;
 
-    private void ChangeState(GameState newState)
-    {
         currentState = newState;
-        Debug.Log($"[GameStateManager] State changed to {currentState}");
+        Debug.Log($"[GameStateManager] -> {newState}");
 
-        mainMenuPanel?.SetActive(false);
-        pausePanel?.SetActive(false);
-        levelCompletePanel?.SetActive(false);
-        gameOverPanel?.SetActive(false);
 
-        switch (currentState)
-        {
-            case GameState.MainMenu:
-                if (isMainMenuScene)
-                {
-                    mainMenuPanel?.SetActive(true);
-                    Time.timeScale = menuTimeScale;
-                }
-                break;
+        Time.timeScale = (newState == GameState.Playing || newState == GameState.LevelComplete)? TIME_NORMAL: TIME_STOPPED;
 
-            case GameState.Playing:
-                Time.timeScale = playingTimeScale;
-                break;
 
-            case GameState.Paused:
-                pausePanel?.SetActive(true);
-                Time.timeScale = pausedTimeScale;
-                break;
 
-            case GameState.LevelComplete:
-                levelCompletePanel?.SetActive(true);
-                break;
-
-            case GameState.GameOver:
-                gameOverPanel?.SetActive(true);
-                Time.timeScale = gameOverTimeScale;
-                break;
-        }
+        Events.OnGameStateChanged?.Invoke(newState);
     }
 
     public GameState GetState() => currentState;
-}
 
+    private void OnPlayerDied() => SetState(GameState.GameOver, true);
+    private void OnLevelCompleted() => SetState(GameState.LevelComplete, true);
+}

@@ -4,12 +4,10 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private float enemiesCheckDelay = 0.1f;
-    private float initialTimeScale = 1f;
     public static GameManager Instance;
 
-    [Header("Player & UI")]
     private PlayerAttack playerAttack;
+    private float enemiesCheckDelay = 0.1f;
 
     private void Awake()
     {
@@ -17,7 +15,6 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            Time.timeScale = initialTimeScale;
         }
         else
         {
@@ -39,28 +36,22 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        GameObject playerObj = GameObject.FindWithTag("Player");
+        var playerObj = GameObject.FindWithTag("Player");
         if (playerObj != null)
             playerAttack = playerObj.GetComponent<PlayerAttack>();
 
         SetAttackDataByScene();
 
         
-        if (scene.name == "StartScene") 
-        {
-            Events.OnGameStateChanged?.Invoke(GameState.MainMenu);
-        }
+        if (scene.name == "StartScene")
+            GameStateManager.Instance.SetState(GameState.MainMenu, true);
         else
-        {
-            Events.OnGameStateChanged?.Invoke(GameState.Playing);
-        }
+            GameStateManager.Instance.SetState(GameState.Playing, true);
     }
-
 
     private void SetAttackDataByScene()
     {
         if (playerAttack == null) return;
-        string sceneName = SceneManager.GetActiveScene().name;
         
     }
 
@@ -85,11 +76,12 @@ public class GameManager : MonoBehaviour
             playerAttack.ActivatePowerUp();
         }
 
-        Events.OnGameStateChanged?.Invoke(GameState.LevelComplete);
+       
+        GameStateManager.Instance.SetState(GameState.LevelComplete);
     }
 
     public void ShowGameOver()
     {
-        Events.OnGameStateChanged?.Invoke(GameState.GameOver);
+        GameStateManager.Instance.SetState(GameState.GameOver);
     }
 }

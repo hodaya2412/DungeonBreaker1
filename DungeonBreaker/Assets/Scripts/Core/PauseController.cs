@@ -3,34 +3,33 @@ using UnityEngine.InputSystem;
 
 public class PauseController : MonoBehaviour
 {
-    private InputActions actionInput;
+    private InputActions input;
     private bool isPaused = false;
 
     private void Awake()
     {
-        actionInput = new InputActions();
+        input = new InputActions();
     }
 
     private void OnEnable()
     {
-        actionInput.Player.Enable();
-        actionInput.Player.Menu.performed += OnPausePerformed;
+        input.Player.Enable();
+        input.Player.Menu.performed += OnPause;
     }
 
     private void OnDisable()
     {
-        actionInput.Player.Menu.performed -= OnPausePerformed;
-        actionInput.Player.Disable();
+        input.Player.Menu.performed -= OnPause;
+        input.Player.Disable();
     }
 
-    private void OnPausePerformed(InputAction.CallbackContext context)
+    private void OnPause(InputAction.CallbackContext ctx)
     {
         isPaused = !isPaused;
 
-        
         if (isPaused)
-            Events.OnGameStateChanged?.Invoke(GameState.Paused);
+            GameStateManager.Instance.SetState(GameState.Paused);
         else
-            Events.OnGameStateChanged?.Invoke(GameState.Playing);
+            GameStateManager.Instance.SetState(GameState.Playing);
     }
 }
