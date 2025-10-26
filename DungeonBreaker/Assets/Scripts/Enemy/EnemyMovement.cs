@@ -23,6 +23,9 @@ public class EnemyMovement : MonoBehaviour
     public IEnemyState spiritIdleState;
 
     private Transform player;
+    private const int LeftDirection = -1;
+    private const int RightDirection = 1;
+
 
     private void OnEnable() { 
         Events.OnEnemyDeath += OnAnyEnemyDeath;
@@ -44,7 +47,7 @@ public class EnemyMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         if (enemyData == null) enemyData = ScriptableObject.CreateInstance<EnemyDate>();
         speed = enemyData.speed;
-        direction = (transform.localScale.x < 0 ? -1 : 1) * defaultDirection;
+        direction = (transform.localScale.x < 0 ? LeftDirection : RightDirection) * defaultDirection;
         player = FindPlayer();
 
         patrolState = new PatrolState(this);
@@ -54,7 +57,6 @@ public class EnemyMovement : MonoBehaviour
         dieState = new DieState(this);
         spiritIdleState = new SpiritIdleState(this);
 
-        // אתחול לפי סוג האויב
         if (enemyData.enemyType == EnemyType.Spirit)
         {
             ChangeState(spiritIdleState);
@@ -104,7 +106,7 @@ public class EnemyMovement : MonoBehaviour
     public void ResumeMoving() => canMove = true;
     public void SetDirection(int newDirection)
     {
-        if (newDirection != -1 && newDirection != 1) return;
+        if (newDirection != LeftDirection && newDirection != RightDirection) return;
         if (direction == newDirection) return;
         direction = newDirection;
         Flip();

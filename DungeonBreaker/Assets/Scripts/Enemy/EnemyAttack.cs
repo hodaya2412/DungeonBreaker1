@@ -10,6 +10,7 @@ public class EnemyAttack : MonoBehaviour
     private float attackCooldown = 2f;
     private Transform player;
     private float nextAttackTime = 0f;
+    private float effectLifetimeSec = 2f;
 
     private void Start()
     {
@@ -54,7 +55,7 @@ public class EnemyAttack : MonoBehaviour
                 );
 
 
-                Destroy(effect, 2f);
+                Destroy(effect, effectLifetimeSec);
             }
         }
 
@@ -68,7 +69,7 @@ public class EnemyAttack : MonoBehaviour
         }
     }
 
-    //אם רוצים להמשיך להפעיל התקפה גם כשהשחקנית נשארת בטווח:
+    
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag("PlayerHitBox") && CanAttack())

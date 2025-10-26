@@ -3,12 +3,14 @@ using UnityEngine.UI;
 
 public class PlayerHealthUI : MonoBehaviour
 {
+    
     [Header("UI Elements")]
     [SerializeField] private Slider healthSlider;  
     [SerializeField] private Image fillImage;       
 
     [Header("Health Settings")]
-    [SerializeField] private int maxHealth = 10;    
+    [SerializeField] private int maxHealth = 10;
+    private const int MinHealth = 0;
     private int currentHealth;
 
     [Header("Appearance")]
@@ -44,7 +46,7 @@ public class PlayerHealthUI : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        currentHealth = Mathf.Max(currentHealth, 0);
+        currentHealth = Mathf.Max(currentHealth, MinHealth);
         targetValue = currentHealth;
     }
 

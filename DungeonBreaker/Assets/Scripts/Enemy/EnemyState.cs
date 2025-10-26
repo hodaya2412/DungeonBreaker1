@@ -4,6 +4,8 @@ using UnityEngine;
 #region SpiritIdleState
 public class SpiritIdleState : IEnemyState
 {
+    private const int LeftDirection = -1;
+    private const int RightDirection = 1;
     private EnemyMovement enemy;
     private Transform player;
 
@@ -16,7 +18,7 @@ public class SpiritIdleState : IEnemyState
     public override void Enter()
     {
         Debug.Log($"<color=cyan>{enemy.name} entered SpiritIdleState</color>");
-        // עצירה דרך Events
+        
         Events.RequestMove(enemy, false);
     }
 
@@ -27,8 +29,8 @@ public class SpiritIdleState : IEnemyState
         if (player == null) player = enemy.FindPlayer();
         if (player == null) return;
 
-        // שינוי כיוון לפי מיקום השחקן
-        int dir = (player.position.x > enemy.transform.position.x) ? -1 : 1;
+       
+        int dir = (player.position.x > enemy.transform.position.x) ? LeftDirection : RightDirection;
         Events.RequestDirection(enemy, dir);
 
         float dist = Vector2.Distance(enemy.transform.position, player.position);
@@ -64,7 +66,7 @@ public class SpiritIdleState : IEnemyState
     public override void Exit()
     {
         Debug.Log($"<color=cyan>{enemy.name} exited SpiritIdleState</color>");
-        // חזרה לתנועה דרך Events
+        
         Events.RequestMove(enemy, true);
     }
 }
@@ -86,7 +88,7 @@ public class IdleState : IEnemyState
     public override void Enter()
     {
         Debug.Log($"<color=yellow>{enemy.name} entered IdleState</color>");
-        // במקום enemy.StopMoving()
+       
         Events.RequestMove(enemy, false);
     }
 
@@ -104,14 +106,14 @@ public class IdleState : IEnemyState
 
         if (dist <= attackRange && (attackComp == null || attackComp.CanAttack()))
         {
-            // במקום enemy.ChangeState(enemy.attackState)
+            
             Events.RequestStateChange(enemy, enemy.attackState);
             return;
         }
 
         if (dist <= detection)
         {
-            // במקום enemy.ChangeState(enemy.chaseState)
+            
             Events.RequestStateChange(enemy, enemy.chaseState);
             return;
         }
@@ -120,7 +122,7 @@ public class IdleState : IEnemyState
     public override void Exit()
     {
         Debug.Log($"<color=yellow>{enemy.name} exited IdleState</color>");
-        // במקום enemy.ResumeMoving()
+        
         Events.RequestMove(enemy, true);
     }
 }
@@ -142,7 +144,6 @@ public class PatrolState : IEnemyState
     public override void Enter()
     {
         Debug.Log($"<color=green>{enemy.name} entered PatrolState</color>");
-        // חזרה לתנועה דרך Events
         Events.RequestMove(enemy, true);
     }
 
@@ -160,14 +161,14 @@ public class PatrolState : IEnemyState
 
         if (dist <= attackRange && (attackComp == null || attackComp.CanAttack()))
         {
-            // בקשה למעבר למצב התקפה
+           
             Events.RequestStateChange(enemy, enemy.attackState);
             return;
         }
 
         if (dist <= detection)
         {
-            // בקשה למעבר למצב רדיפה
+            
             Events.RequestStateChange(enemy, enemy.chaseState);
             return;
         }
@@ -176,7 +177,7 @@ public class PatrolState : IEnemyState
     public override void Exit()
     {
         Debug.Log($"<color=green>{enemy.name} exited PatrolState</color>");
-        // אין קריאה ישירה ל-EnemyMovement – הכל דרך Events אם צריך
+        
     }
 }
 
@@ -185,6 +186,8 @@ public class PatrolState : IEnemyState
 #region ChaseState
 public class ChaseState : IEnemyState
 {
+    private const int RightDirection = 1;
+    private const int LeftDirection = -1;
     private EnemyMovement enemy;
     private Transform player;
 
@@ -197,7 +200,6 @@ public class ChaseState : IEnemyState
     public override void Enter()
     {
         Debug.Log($"<color=magenta>{enemy.name} entered ChaseState</color>");
-        // חזרה לתנועה דרך Events
         Events.RequestMove(enemy, true);
     }
 
@@ -217,8 +219,8 @@ public class ChaseState : IEnemyState
         float attackRange = enemy.GetEnemyDate().attackRange;
         var attackComp = enemy.GetEnemyAttack();
 
-        // שינוי כיוון דרך Events
-        int dir = (player.position.x > enemy.transform.position.x) ? 1 : -1;
+        
+        int dir = (player.position.x > enemy.transform.position.x) ? RightDirection : LeftDirection;
         Events.RequestDirection(enemy, dir);
 
         if (dist <= attackRange && (attackComp == null || attackComp.CanAttack()))
@@ -237,7 +239,7 @@ public class ChaseState : IEnemyState
     public override void Exit()
     {
         Debug.Log($"<color=magenta>{enemy.name} exited ChaseState</color>");
-        // אין קריאות ישירות ל-EnemyMovement – הכל דרך Events
+        
     }
 }
 
@@ -251,7 +253,8 @@ public class AttackState : IEnemyState
     private EnemyAttack attackComp;
     private Transform player;
     private bool attackedThisEntry = false;
-    private float attackTime = 0f;
+    private const float ResetTime = 0f;
+    private float attackTime = ResetTime;
     private float postAttackDelay = 1f;
 
     public AttackState(EnemyMovement enemy)
@@ -265,7 +268,7 @@ public class AttackState : IEnemyState
     {
         Debug.Log($"<color=red>{enemy.name} entered AttackState</color>");
         attackedThisEntry = false;
-        attackTime = 0f;
+        attackTime = ResetTime;
     }
 
     public override void Execute()
@@ -283,7 +286,7 @@ public class AttackState : IEnemyState
         float attackRange = enemy.GetEnemyDate().attackRange;
         float detection = enemy.GetEnemyDate().detectionRange;
 
-        // אם בטווח ויכול לתקוף – מבצע התקפה
+        
         if (!attackedThisEntry && attackComp != null && attackComp.CanAttack() && dist <= attackRange)
         {
             Debug.Log($"<color=red>{enemy.name} ATTACK</color>");
@@ -293,7 +296,7 @@ public class AttackState : IEnemyState
             return;
         }
 
-        // אם התקפה בוצעה – מחכים את זמן ה-delay לפני חזרה למצב אחר
+       
         if (attackedThisEntry)
         {
             if (Time.time - attackTime >= postAttackDelay)
@@ -304,7 +307,7 @@ public class AttackState : IEnemyState
             return;
         }
 
-        // אם השחקן רחוק מדי
+        
         if (dist > detection)
         {
             ReturnToIdleOrPatrol();
@@ -314,7 +317,7 @@ public class AttackState : IEnemyState
 
     private void ReturnToIdleOrPatrol()
     {
-        // במקום enemy.ChangeState(...) משתמשים ב-Events
+        
         if (enemy.GetEnemyDate().enemyType == EnemyType.Spirit || enemy.GetEnemyDate().enemyType == EnemyType.Boss)
         {
             Events.RequestStateChange(enemy, enemy.spiritIdleState);
@@ -347,25 +350,25 @@ public class DieState : IEnemyState
     {
         Debug.Log($"<color=grey>{enemy.name} entered DieState</color>");
 
-        // עצירת תנועה דרך האירועים
+        
         Events.RequestMove(enemy, false);
 
-        // ביטול יכולת התקפה
+        
         var attack = enemy.GetEnemyAttack();
         if (attack != null)
             attack.enabled = false;
 
-        // הפעלת אנימציית מוות
+        
         enemy.GetAnimator()?.SetTrigger("IsDead");
 
-        // שליחת אירוע גלובלי לאויב מת (אם רוצים לעדכן מערכת ספירת אויבים למשל)
+       
         Events.OnEnemyDeath?.Invoke(enemy.gameObject);
     }
 
     public override void Execute()
     {
         Debug.Log($"<color=grey>{enemy.name} executing DieState</color>");
-        // אין צורך לעשות כאן כלום – האויב מת
+       
     }
 
     public override void Exit()

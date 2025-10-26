@@ -4,10 +4,11 @@ using System.Collections;
 public class ArrowSpawner : MonoBehaviour
 {
     public GameObject arrowPrefab;
-    public int numberOfArrows = 5;   // חצים בכל סבב
-    public float maxDelay = 0.5f;    // דיליי רנדומלי בין חץ לחץ
-    public float roundInterval = 60f; // סבב חדש כל דקה
-    public float spawnHeightOffset = 2f; // כמה מעל המסך החץ מתחיל
+    public int numberOfArrows = 5;   
+    public float maxDelay = 0.5f;    
+    public float roundInterval = 60f; 
+    public float spawnHeightOffset = 2f;
+    private const float ArrowRotationZ = -90f;
 
     private Camera mainCamera;
 
@@ -21,7 +22,7 @@ public class ArrowSpawner : MonoBehaviour
     {
         while (true)
         {
-            // התחלת סבב חצים חדש
+            
             for (int i = 0; i < numberOfArrows; i++)
             {
                 float minX = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).x;
@@ -43,7 +44,7 @@ public class ArrowSpawner : MonoBehaviour
     IEnumerator SpawnArrowWithDelay(Vector3 position, float delay)
     {
         yield return new WaitForSeconds(delay);
-        Quaternion arrowRotation = Quaternion.Euler(0, 0, -90f);
+        Quaternion arrowRotation = Quaternion.Euler(0, 0, ArrowRotationZ);
         Instantiate(arrowPrefab, position, Quaternion.identity);
     }
 }

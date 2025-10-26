@@ -21,18 +21,18 @@ public class PlayerHealth : MonoBehaviour
     private void OnEnable()
     {
         Events.OnEnemyHitPlayer += TakeDamage;
-        Events.OnPlayerHeal += OnHeal; // 🩹 הרשמה לאירוע ריפוי
+        Events.OnPlayerHeal += OnHeal; 
     }
 
     private void OnDisable()
     {
         Events.OnEnemyHitPlayer -= TakeDamage;
-        Events.OnPlayerHeal -= OnHeal; // 🩹 ביטול הרשמה
+        Events.OnPlayerHeal -= OnHeal; 
     }
 
     private void OnHeal(GameObject player, int amount)
     {
-        // נוודא שהאירוע שייך לשחקן הזה (לא לשחקן אחר במשחק מרובה)
+        
         if (player == gameObject)
         {
             Heal(amount);
@@ -45,7 +45,7 @@ public class PlayerHealth : MonoBehaviour
 
         if (shieldController != null && shieldController.IsShieldActive())
         {
-            Debug.Log("💠 Damage blocked by shield!");
+            Debug.Log("Damage blocked by shield!");
             return;
         }
 

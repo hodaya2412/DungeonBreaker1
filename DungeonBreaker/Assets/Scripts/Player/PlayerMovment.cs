@@ -9,6 +9,8 @@ public class PlayerMovment : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private bool isGrounded = true;
 
+    private float faceRightScaleX = 1f;
+    private float faceLeftScaleX = -1f;
     private float directionX;
     private Rigidbody2D rb;
     private Animator animator;
@@ -89,7 +91,7 @@ public class PlayerMovment : MonoBehaviour
         if (directionX != 0)
         {
             transform.localScale = new Vector3(
-                directionX > 0 ? 1 : -1,
+                directionX > 0 ? faceRightScaleX : faceLeftScaleX,
                 transform.localScale.y,
                 transform.localScale.z
             );

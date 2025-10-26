@@ -27,7 +27,7 @@ public class UIButtonActions : MonoBehaviour
 
     public void TryAgain()
     {
-        Destroy(GameManager.Instance?.gameObject);
+        
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         SceneManager.sceneLoaded += OnSceneLoaded;
     }

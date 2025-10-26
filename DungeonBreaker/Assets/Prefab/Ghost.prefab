@@ -213,8 +213,6 @@ GameObject:
   - component: {fileID: 4167379329078494883}
   - component: {fileID: 6912132853010555546}
   - component: {fileID: 7543613211540616899}
-  - component: {fileID: 2710451012470266469}
-  - component: {fileID: 4168122698337826836}
   m_Layer: 6
   m_Name: Ghost
   m_TagString: Enemy
@@ -435,7 +433,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 6924817397938293862}
   fillImage: {fileID: 3277562343502805967}
-  maxHealth: 3
+  maxHealth: 8
   healthColor: {r: 0, g: 1, b: 0, a: 1}
   animationSpeed: 2
 --- !u!114 &7543613211540616899
@@ -454,39 +452,6 @@ MonoBehaviour:
   enemyData: {fileID: 11400000, guid: 246ef3a011f26374d94391106486d996, type: 2}
   defaultDirection: -1
   direction: 1
---- !u!114 &2710451012470266469
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3300347258253223917}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3000ce989096c644b923ecbb358c8ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 656509352028993688}
-  hitStunTime: 0.3
-  healthUI: {fileID: 4168122698337826836}
-  enemyData: {fileID: 11400000, guid: 246ef3a011f26374d94391106486d996, type: 2}
---- !u!114 &4168122698337826836
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3300347258253223917}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4938489f58a5b2947a832aa1ed450b03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthSlider: {fileID: 6924817397938293862}
-  fillImage: {fileID: 3277562343502805967}
-  maxHealth: 3
-  healthColor: {r: 0, g: 1, b: 0, a: 1}
-  animationSpeed: 2
 --- !u!1 &4383455404841362041
 GameObject:
   m_ObjectHideFlags: 0

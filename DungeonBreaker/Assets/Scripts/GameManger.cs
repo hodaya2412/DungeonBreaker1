@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    private float enemiesCheckDelay = 0.1f;
+    private float initialTimeScale = 1f;
     public static GameManager Instance;
 
     [Header("Player & UI")]
@@ -15,7 +17,7 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            Time.timeScale = 1f;
+            Time.timeScale = initialTimeScale;
         }
         else
         {
@@ -43,8 +45,8 @@ public class GameManager : MonoBehaviour
 
         SetAttackDataByScene();
 
-        // נבדוק אם זו הסצנה של התפריט הראשי
-        if (scene.name == "StartScene") // ודאי ששם הסצנה תואם בדיוק ל-Build Settings
+        
+        if (scene.name == "StartScene") 
         {
             Events.OnGameStateChanged?.Invoke(GameState.MainMenu);
         }
@@ -59,7 +61,7 @@ public class GameManager : MonoBehaviour
     {
         if (playerAttack == null) return;
         string sceneName = SceneManager.GetActiveScene().name;
-        // לוגיקה לפי שם סצנה אם תרצי
+        
     }
 
     private void OnEnemyDeath(GameObject enemy)
@@ -69,7 +71,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator CheckAllEnemiesDefeated()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(enemiesCheckDelay);
 
         while (GameObject.FindGameObjectsWithTag("Enemy").Length > 0)
             yield return null;

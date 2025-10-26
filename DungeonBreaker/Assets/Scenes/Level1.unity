@@ -1397,7 +1397,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c205bf3d61e493f45a4887fa11812aec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pausePanel: {fileID: 302070330}
 --- !u!1 &344870354
 GameObject:
   m_ObjectHideFlags: 0
@@ -1859,7 +1858,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf77b46ba7d85d64787b8958882a204f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameStateManager: {fileID: 1194790844}
 --- !u!4 &419209794
 Transform:
   m_ObjectHideFlags: 0
@@ -4749,7 +4747,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c205bf3d61e493f45a4887fa11812aec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pausePanel: {fileID: 0}
 --- !u!1 &1249611085
 GameObject:
   m_ObjectHideFlags: 0
@@ -5969,7 +5966,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c205bf3d61e493f45a4887fa11812aec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pausePanel: {fileID: 302070330}
 --- !u!4 &1548770425
 Transform:
   m_ObjectHideFlags: 0

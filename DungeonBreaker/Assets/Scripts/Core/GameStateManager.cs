@@ -20,6 +20,13 @@ public class GameStateManager : MonoBehaviour
     public GameObject levelCompletePanel;
     public GameObject gameOverPanel;
 
+    private float menuTimeScale = 0f;       
+    private float playingTimeScale = 1f;    
+    private float pausedTimeScale = 0f;     
+    private float gameOverTimeScale = 0f;   
+    
+
+
     private GameState currentState;
 
     private void OnEnable()
@@ -54,17 +61,17 @@ public class GameStateManager : MonoBehaviour
                 if (isMainMenuScene)
                 {
                     mainMenuPanel?.SetActive(true);
-                    Time.timeScale = 0f;
+                    Time.timeScale = menuTimeScale;
                 }
                 break;
 
             case GameState.Playing:
-                Time.timeScale = 1f;
+                Time.timeScale = playingTimeScale;
                 break;
 
             case GameState.Paused:
                 pausePanel?.SetActive(true);
-                Time.timeScale = 0f;
+                Time.timeScale = pausedTimeScale;
                 break;
 
             case GameState.LevelComplete:
@@ -73,7 +80,7 @@ public class GameStateManager : MonoBehaviour
 
             case GameState.GameOver:
                 gameOverPanel?.SetActive(true);
-                Time.timeScale = 0f;
+                Time.timeScale = gameOverTimeScale;
                 break;
         }
     }

@@ -15,8 +15,8 @@ MonoBehaviour:
   enemyType: 2
   enemyName: Boss
   speed: 2
-  health: 8
-  damage: 2
+  health: 20
+  damage: 3
   detectionRange: 5
   attackRange: 1
   hitStunTime: 0.3

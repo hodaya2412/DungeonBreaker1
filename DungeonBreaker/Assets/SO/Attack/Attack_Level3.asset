@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Attack_Level3
   m_EditorClassIdentifier: 
   attackName: 
-  damage: 2
+  damage: 3
   attackDuration: 0.3
   attackEffectPrefab: {fileID: 2715471840370901047, guid: df9374346b76e444dbbb2b019de4da25, type: 3}
   powerUpGrantedEffect: {fileID: 0}

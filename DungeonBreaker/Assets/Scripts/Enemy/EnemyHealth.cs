@@ -9,8 +9,9 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private EnemyHealthUI healthUI;
     [SerializeField] EnemyDate enemyData;
 
+    private const float DeathAnimationDuration = 1f;
+
     private int currentHealth;
-   
     private bool isDead = false;
 
     private void OnEnable()
@@ -78,7 +79,7 @@ public class EnemyHealth : MonoBehaviour
 
     private IEnumerator DelayedDeath()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(DeathAnimationDuration);
         Destroy(gameObject);
     }
 }

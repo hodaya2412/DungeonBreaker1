@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: Attack_Level2
   m_EditorClassIdentifier: 
   attackName: AttackLevel2
-  damage: 3
+  damage: 2
   attackDuration: 0.3
   attackEffectPrefab: {fileID: 1171201465392465800, guid: 4aa9f30a28a77224ba84b2a2c334c71b, type: 3}
   powerUpGrantedEffect: {fileID: 4932088507883938021, guid: 0e5709a7ddb77924090c112cf73bb98a, type: 3}
+  hasShield: 0
+  shieldEffectPrefab: {fileID: 0}
+  shieldDuration: 3
+  shieldActiveStage: 3

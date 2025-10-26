@@ -10,6 +10,7 @@ public class BossSpecialAttack : MonoBehaviour
     [Header("Spawn area")]
     [SerializeField] private Transform spawnPointA;
     [SerializeField] private Transform spawnPointB;
+    private float spawnDepth = 0f;
 
     [Header("Timing")]
     [SerializeField] private float specialAttackCooldown = 120f;
@@ -18,6 +19,11 @@ public class BossSpecialAttack : MonoBehaviour
     [SerializeField] private Animator bossAnimator;
     [SerializeField] private string animatorTriggerName = "SpecialAttack";
     [SerializeField] private EnemyMovement bossMovement;
+
+    [Header("VFX")]
+    [SerializeField] private GameObject specialAttackEffectPrefab;               
+    [SerializeField, Min(0f)] private float effectLifetimeSec = 2f;  
+    
 
     private float nextSpecialAttackTime = 0f;
     private bool isRunning = false;
@@ -55,6 +61,8 @@ public class BossSpecialAttack : MonoBehaviour
         if (bossAnimator != null && !string.IsNullOrEmpty(animatorTriggerName))
             bossAnimator.SetTrigger(animatorTriggerName);
 
+        PlaySpecialAttackVFX();
+
         SpawnEnemies();
 
         if (bossMovement != null)
@@ -63,6 +71,17 @@ public class BossSpecialAttack : MonoBehaviour
         isRunning = false;
         yield return null;
     }
+
+    private void PlaySpecialAttackVFX()
+    {
+        if (specialAttackEffectPrefab == null) return;
+
+        GameObject fx = Instantiate(specialAttackEffectPrefab, transform.position, Quaternion.identity);
+
+        if (effectLifetimeSec > 0f)
+            Destroy(fx, effectLifetimeSec);
+    }
+
 
     private void SpawnEnemies()
     {
@@ -76,7 +95,7 @@ public class BossSpecialAttack : MonoBehaviour
 
             float randomX = Random.Range(spawnPointA.position.x, spawnPointB.position.x);
             float randomY = Random.Range(spawnPointA.position.y, spawnPointB.position.y);
-            Vector3 spawnPos = new Vector3(randomX, randomY, 0f);
+            Vector3 spawnPos = new Vector3(randomX, randomY, spawnDepth);
 
             Instantiate(prefab, spawnPos, Quaternion.identity);
         }

@@ -142,7 +142,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.39775896}
+  m_Offset: {x: 0.23, y: 0.46}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -152,7 +152,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1.7955179}
+  m_Size: {x: 1, y: 1.5304763}
   m_EdgeRadius: 0
 --- !u!114 &7117825374647673296
 MonoBehaviour:
@@ -169,7 +169,6 @@ MonoBehaviour:
   animator: {fileID: 3730579570627173035}
   enemyMovement: {fileID: 1776743326244773032}
   enemyData: {fileID: 11400000, guid: 00497d88c92e55843ab4f23a45c49abb, type: 2}
-  attackCooldown: 2
 --- !u!1 &1914481087499107231
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,8 +281,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 2}
-  m_SizeDelta: {x: 700.4, y: 429}
+  m_AnchoredPosition: {x: -0.0039, y: 2.0015}
+  m_SizeDelta: {x: 675.1685, y: 422.6921}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5605188535706396967
 Canvas:
@@ -384,7 +383,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 63.9, y: -26.8}
+  m_AnchoredPosition: {x: 37, y: -10}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2232278879928886445
@@ -614,11 +613,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: a22685f337eca7e44bb09d1c809c50fb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.94632447
+      value: 3.2229598
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: a22685f337eca7e44bb09d1c809c50fb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.0107245
+      value: -3.828947
       objectReference: {fileID: 0}
     - target: {fileID: -7552582706839291426, guid: a22685f337eca7e44bb09d1c809c50fb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -826,11 +825,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4177023950065269142, guid: a22685f337eca7e44bb09d1c809c50fb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.6353315
+      value: 0.7379947
       objectReference: {fileID: 0}
     - target: {fileID: 4177023950065269142, guid: a22685f337eca7e44bb09d1c809c50fb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.32746673
+      value: 0.4021995
       objectReference: {fileID: 0}
     - target: {fileID: 4177023950065269142, guid: a22685f337eca7e44bb09d1c809c50fb, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1005,7 +1004,6 @@ MonoBehaviour:
   hitStunTime: 0.3
   healthUI: {fileID: 232112360220806452}
   enemyData: {fileID: 11400000, guid: 00497d88c92e55843ab4f23a45c49abb, type: 2}
-  currentHealth: 0
 --- !u!61 &4287346147986361595
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1040,7 +1038,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.7217972, y: 0.58611584}
+  m_Offset: {x: 0.64, y: 0.769753}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1050,7 +1048,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.93497276, y: 1.4557571}
+  m_Size: {x: 0.93497276, y: 1.6805134}
   m_EdgeRadius: 0
 --- !u!50 &3794974364314083704
 Rigidbody2D:
@@ -1093,6 +1091,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 3730579570627173035}
   enemyData: {fileID: 11400000, guid: 00497d88c92e55843ab4f23a45c49abb, type: 2}
+  defaultDirection: 1
+  direction: 1
 --- !u!95 &3730579570627173035
 Animator:
   serializedVersion: 7
@@ -1129,6 +1129,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 2232278879928886445}
   fillImage: {fileID: 4033854456194832791}
-  maxHealth: 5
+  maxHealth: 3
   healthColor: {r: 0, g: 1, b: 0, a: 1}
   animationSpeed: 2

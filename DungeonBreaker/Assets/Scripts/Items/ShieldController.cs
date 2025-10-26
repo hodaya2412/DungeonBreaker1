@@ -5,11 +5,12 @@ using System.Collections;
 public class ShieldController : MonoBehaviour
 {
     [Header("Shield Settings from ScriptableObject")]
-    [SerializeField] private AttackData attackData; // ScriptableObject שמכיל hasShield, shieldEffectPrefab, shieldDuration, shieldActiveStage
+    [SerializeField] private AttackData attackData; 
 
     [Header("Player Stage")]
-    [SerializeField] private int currentStage = 1; // נעדכן לפי מצב המשחק
+    [SerializeField] private int currentStage = 1;
 
+    private const float DefaultShieldDuration = 10f;
     private InputActions inputActions;
     private bool shieldActive = false;
     private GameObject shieldInstance;
@@ -18,7 +19,7 @@ public class ShieldController : MonoBehaviour
     {
         inputActions = new InputActions();
 
-        // חיבור הכפתור Q להפעלת המגן
+        
         inputActions.Player.Shield.started += ctx => TryActivateShield();
     }
 
@@ -34,7 +35,7 @@ public class ShieldController : MonoBehaviour
 
     private void Update()
     {
-        // אם יש מגן פעיל, נדאג שהוא יעקוב אחרי השחקנית
+        
         if (shieldActive && shieldInstance != null)
         {
             shieldInstance.transform.position = transform.position;
@@ -45,7 +46,7 @@ public class ShieldController : MonoBehaviour
     {
         if (attackData == null) return;
 
-        // בדיקה אם המגן פעיל בסקריפטבל אובייקט ואם בשלב הנכון
+        
         if (!attackData.hasShield || currentStage != attackData.shieldActiveStage) return;
 
         ActivateShield();
@@ -56,20 +57,20 @@ public class ShieldController : MonoBehaviour
         if (shieldActive) return;
 
         shieldActive = true;
-        Debug.Log("🛡 Shield activated!");
+        Debug.Log(" Shield activated!");
 
-        // יצירת אפקט המגן
+        
         if (attackData.shieldEffectPrefab != null)
             shieldInstance = Instantiate(attackData.shieldEffectPrefab, transform.position, Quaternion.identity);
 
-        // התחלת זמן המגן
+        
         StartCoroutine(ShieldDurationRoutine());
     }
 
     private IEnumerator ShieldDurationRoutine()
     {
         float timer = 0f;
-        float duration = (attackData != null) ? attackData.shieldDuration : 10f; // ברירת מחדל 10 שניות
+        float duration = (attackData != null) ? attackData.shieldDuration : DefaultShieldDuration; 
 
         while (timer < duration)
         {
@@ -85,9 +86,9 @@ public class ShieldController : MonoBehaviour
         if (!shieldActive) return;
 
         shieldActive = false;
-        Debug.Log("🛡 Shield deactivated!");
+        Debug.Log(" Shield deactivated!");
 
-        // השמדת האפקט
+        
         if (shieldInstance != null)
             Destroy(shieldInstance);
     }
